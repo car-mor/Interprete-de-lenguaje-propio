@@ -62,7 +62,7 @@ public class Interprete {
     /*
     El método error se puede usar desde las distintas clases
     para reportar los errores:
-    Interprete.error(....);
+    Interprete.error;
      */
     static void error(int linea, String mensaje){
         reportar(linea, "", mensaje);
