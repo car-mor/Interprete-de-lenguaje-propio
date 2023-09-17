@@ -19,6 +19,7 @@ public class Interprete {
         } else if(args.length == 1){
             ejecutarArchivo(args[0]);
         } else{
+            System.out.println("promt");
             ejecutarPrompt();
         }
     }
