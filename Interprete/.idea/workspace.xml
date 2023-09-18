@@ -5,24 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fea03b3b-bc35-4fda-98b9-d117879672f7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ant.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/manifest.mf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbproject/build-impl.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbproject/genfiles.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbproject/private/private.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbproject/project.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbproject/project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Interprete/Interprete.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Interprete/Interprete.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Interprete/Scanner.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Interprete/Scanner.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Interprete/TipoToken.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Interprete/TipoToken.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Interprete/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Interprete/Token.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Interprete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Interprete.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Interprete/archivo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Interprete/archivo.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scanner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TipoToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TipoToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/archivo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/archivo.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +41,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -68,7 +59,7 @@
       <option name="presentableId" value="Default" />
       <updated>1694915277070</updated>
       <workItem from="1694915279087" duration="288000" />
-      <workItem from="1694915840576" duration="1397000" />
+      <workItem from="1694915840576" duration="10828000" />
     </task>
     <servers />
   </component>
