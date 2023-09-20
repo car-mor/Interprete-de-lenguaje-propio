@@ -1,5 +1,5 @@
 public enum TipoToken {
-    // Tokens de un sólo caracter
+    // Tokens de un sólo caracter, estados de 33
     LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
     COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
 
@@ -10,7 +10,7 @@ public enum TipoToken {
     LESS, LESS_EQUAL,
 
     // Literales
-    IDENTIFIER, STRING, NUMBER, DOUBLE,
+    IDENTIFIER, STRING, NUMBER,
 
     // Palabras clave
     AND, ELSE, FALSE, FUN, FOR, IF, NULL, OR,

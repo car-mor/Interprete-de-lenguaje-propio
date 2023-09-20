@@ -60,7 +60,7 @@ public class Scanner {
                 columna=0;
             }
 
-            System.out.println(c+" -> "+(int)c);
+            //System.out.println(c+" -> "+(int)c);
             switch (estado){
                 //caso 0, inicio de diagrama de estados
                 case 0:
@@ -80,6 +80,18 @@ public class Scanner {
                     else if(caracteresNP.contains(c)){
                         estado=999;
                         lexema += c;
+                    }
+
+                    else if (c=='('){
+
+                        Token t=new Token(TipoToken.LEFT_PAREN, ""+c);
+                        tokens.add(t);
+
+                    }
+
+                    else if(c==')'){
+                        Token t=new Token(TipoToken.RIGHT_PAREN, ""+c);
+                        tokens.add(t);
                     }
 
                     break;
@@ -109,6 +121,8 @@ public class Scanner {
                         i--; columna--;
                     }
                     break;
+
+                //numeros positivos, negativos, Exponencial
                 case 15:
                     if(Character.isDigit(c)){
                         estado = 15;
