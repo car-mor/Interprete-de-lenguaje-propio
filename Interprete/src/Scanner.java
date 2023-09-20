@@ -170,7 +170,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{
-                        Token t = new Token(TipoToken.NUMBER, lexema);
+                        Token t = new Token(TipoToken.NUMBER, lexema, new String("numero decimal"));
                         tokens.add(t);
 
                         estado = 0;
@@ -178,6 +178,43 @@ public class Scanner {
                         i--; columna--;
                     }
                     break;
+
+                case 18:
+                    if(Character.isDigit(c)){
+                        estado = 20;
+                        lexema += c;
+                    }
+                    else if(c == '+' || c == '-'){
+                        estado = 19;
+                        lexema += c;
+                    }
+                    else{
+                        Token t=new Token(TipoToken.ERROR_LEXICAL, lexema,columna,linea);
+                        tokens.add(t);
+
+                        lexema="";
+                        estado=0;
+                        i--; columna--;
+                    }
+                    break;
+
+                case 20:
+                    if(Character.isDigit(c)){
+                        estado = 20;
+                        lexema += c;
+                    }
+                    else{
+                        Token t = new Token(TipoToken.NUMBER, lexema, new String("numero exponencial"));
+                        tokens.add(t);
+
+                        estado = 0;
+                        lexema = "";
+                        i--; columna--;
+                    }
+                    break;
+
+
+
                 case 999:{
                     if(caracteresNP.contains(c)){
                         lexema += c;
