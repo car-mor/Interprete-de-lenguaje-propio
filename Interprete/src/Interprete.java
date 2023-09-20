@@ -77,3 +77,4 @@ public class Interprete {
     }
 
 }
+javac Interprete.java
