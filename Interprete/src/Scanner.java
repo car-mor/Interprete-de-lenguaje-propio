@@ -73,7 +73,7 @@ public class Scanner {
 
                     //verifica si es un numero
                     else if(Character.isDigit(c)){
-                        estado = 11;
+                        estado = 15;
                         lexema += c;
                     }
                     //error lexico en estado 0
@@ -109,9 +109,9 @@ public class Scanner {
                         i--; columna--;
                     }
                     break;
-                case 11:
+                case 15:
                     if(Character.isDigit(c)){
-                        estado = 11;
+                        estado = 15;
                         lexema += c;
                     }
                     else if(c == '.'){
@@ -126,6 +126,7 @@ public class Scanner {
 
                         estado = 0;
                         lexema = "";
+                        i--; columna--;
                     }
                     break;
                 case 999:{
