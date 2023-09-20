@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class Scanner {
 
+
+
     private static final Map<String, TipoToken> palabrasReservadas;
 
     static {
@@ -129,13 +131,46 @@ public class Scanner {
                         lexema += c;
                     }
                     else if(c == '.'){
+                        estado = 16;
+                        lexema += c;
 
                     }
                     else if(c == 'E'){
-
+                        estado = 18;
+                        lexema += c;
                     }
                     else{
                         Token t = new Token(TipoToken.NUMBER, lexema, Integer.valueOf(lexema));
+                        tokens.add(t);
+
+                        estado = 0;
+                        lexema = "";
+                        i--; columna--;
+                    }
+                    break;
+
+                case 16:
+                    if(Character.isDigit(c)){
+                        estado = 17;
+                        lexema += c;
+                    }
+                    else{
+                        Token t=new Token(TipoToken.ERROR_LEXICAL, lexema,columna,linea);
+                        tokens.add(t);
+
+                        lexema="";
+                        estado=0;
+                        i--; columna--;
+                    }
+                    break;
+
+                case 17:
+                    if(Character.isDigit(c)){
+                        estado = 17;
+                        lexema += c;
+                    }
+                    else{
+                        Token t = new Token(TipoToken.NUMBER, lexema);
                         tokens.add(t);
 
                         estado = 0;
