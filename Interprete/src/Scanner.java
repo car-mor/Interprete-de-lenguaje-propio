@@ -170,7 +170,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{
-                        Token t = new Token(TipoToken.NUMBER, lexema);
+                        Token t = new Token(TipoToken.NUMBER, lexema, new String("numero decimal"));
                         tokens.add(t);
 
                         estado = 0;
