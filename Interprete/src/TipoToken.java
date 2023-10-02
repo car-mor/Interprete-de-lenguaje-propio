@@ -1,4 +1,8 @@
 public enum TipoToken {
+
+    //ERROR Token
+    ERROR_LEXICAL,
+
     // Tokens de un sólo caracter, estados de 33
     LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
     COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
@@ -16,8 +20,7 @@ public enum TipoToken {
     AND, ELSE, FALSE, FUN, FOR, IF, NULL, OR,
     PRINT, RETURN, TRUE, VAR, WHILE,
 
-    //ERROR Token
-    ERROR_LEXICAL,
+
 
     EOF
 }
