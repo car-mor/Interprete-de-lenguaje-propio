@@ -1,3 +1,5 @@
+import sun.misc.FloatingDecimal;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -169,8 +171,12 @@ public class Scanner {
                         estado = 17;
                         lexema += c;
                     }
+                    else if(c == 'E'){
+                        estado = 18;
+                        lexema += c;
+                    }
                     else{
-                        Token t = new Token(TipoToken.NUMBER, lexema, new String("numero decimal"));
+                        Token t = new Token(TipoToken.NUMBER, lexema, Double.valueOf(lexema));
                         tokens.add(t);
 
                         estado = 0;
@@ -184,8 +190,23 @@ public class Scanner {
                         estado = 20;
                         lexema += c;
                     }
-                    else if(c == '+' || c == '-'){
+                    else if(c == '+' || c== '-'){
                         estado = 19;
+                        lexema += c;
+                    }
+                    else{
+                        Token t=new Token(TipoToken.ERROR_LEXICAL, lexema,columna,linea);
+                        tokens.add(t);
+
+                        lexema="";
+                        estado=0;
+                        i--; columna--;
+                    }
+                    break;
+
+                case 19:
+                    if(Character.isDigit(c)){
+                        estado = 20;
                         lexema += c;
                     }
                     else{
@@ -203,8 +224,12 @@ public class Scanner {
                         estado = 20;
                         lexema += c;
                     }
+                    else if(c == '.'){
+                        estado = 999;
+                        lexema += c;
+                    }
                     else{
-                        Token t = new Token(TipoToken.NUMBER, lexema, new String("numero exponencial"));
+                        Token t = new Token(TipoToken.NUMBER, lexema, new Double(lexema));
                         tokens.add(t);
 
                         estado = 0;
