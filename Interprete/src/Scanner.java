@@ -366,7 +366,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{
-                        Token t = new Token(TipoToken.NUMBER, lexema, new Double(lexema));
+                        Token t = new Token(TipoToken.NUMBER, lexema, lexema);
                         tokens.add(t);
 
                         estado = 0;
@@ -386,7 +386,7 @@ public class Scanner {
                     else if(c=='"'){
                         lexema+=c;
 
-                        tokens.add(new Token(TipoToken.STRING,lexema, lexema));
+                        tokens.add(new Token(TipoToken.STRING,lexema, lexema.replace("\"", "")));
 
                         lexema="";
                         estado = 0;
