@@ -1,7 +1,10 @@
-// Prueba 5:
-fun sumar(variable1, variable2){
-    return variabl1 + variable2;
+// Prueba 8:
+/*
+*/
+
+while(init <= lim){
+    print -fib;
+    var1 = -123
 }
 
-/* Esto es un comentario
-multilinea*/if(2*2){}
+print "Fin";

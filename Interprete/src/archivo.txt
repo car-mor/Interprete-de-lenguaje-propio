@@ -1,8 +1,5 @@
-// Prueba 5:
-fun sumar(variable1, variable2){
-    return variabl1 + variable2;
-}
-//sdsdwef
+// Prueba 1:
+var nombre = "Nombre";
+var apellido1 = "Apellido";
 
-/* Esto es un comentario
-multilinea*/if(2*2){}
+print nombre + " " + apellido1;

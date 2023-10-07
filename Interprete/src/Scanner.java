@@ -57,9 +57,6 @@ public class Scanner {
         this.source = source + " ";
     }
 
-    /**
-     * @return
-     */
     public List<Token> scan() {
         String lexema = "";
         int estado = 0;
@@ -151,7 +148,7 @@ public class Scanner {
                     }
                     //CADENAS de caracteres salto a estado 24
                     else if(c=='"'){
-                        lexema+=c;
+
                         estado=24;
                     }
 
@@ -388,12 +385,12 @@ public class Scanner {
                     if(c==10){
                         tokens.add(new Token(TipoToken.ERROR_LEXICAL,"",
                                 "Unexpected line break",columna,linea));
-                        System.out.println(lexema);
                         lexema="";
+                        estado=0;
                         break;
                     }
                     else if(c=='"'){
-                        lexema+=c;
+
 
                         tokens.add(new Token(TipoToken.STRING,lexema, lexema));
 
@@ -460,6 +457,9 @@ public class Scanner {
                     break;
                 }
             }
+        }
+        if(estado!=0){
+            tokens.add(new Token(TipoToken.ERROR_LEXICAL, lexema,columna,linea));
         }
         tokens.add(new Token(TipoToken.EOF,"EOF"));
 
