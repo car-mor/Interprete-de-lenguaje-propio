@@ -34,8 +34,17 @@ public class Scanner {
         caracteresNP.add('#');
         caracteresNP.add('$');
         caracteresNP.add('@');
+        caracteresNP.add('[');
+        caracteresNP.add(']');
         caracteresNP.add('?');
-        for(int i=128;i<256;i++){
+        caracteresNP.add('&');
+        caracteresNP.add('\'');
+        caracteresNP.add(':');
+        caracteresNP.add((char) 64);
+        caracteresNP.add((char) 37);
+        caracteresNP.add((char) 94);
+        caracteresNP.add((char) 124);
+        for(int i=126;i<256;i++){
             caracteresNP.add((char) i);
         }
     }
@@ -98,12 +107,6 @@ public class Scanner {
 
                     else if(c=='}')
                         tokens.add(new Token(TipoToken.RIGHT_BRACE,""+c));
-
-                    else if(c=='[')
-                        tokens.add(new Token((TipoToken.SQUAREBR_LEFT),""+c));
-
-                    else if(c==']')
-                        tokens.add(new Token(TipoToken.SQUAREBR_RIGHT,""+c));
 
                     else if(c==',')
                         tokens.add(new Token(TipoToken.COMMA,""+c));
@@ -392,7 +395,7 @@ public class Scanner {
                     else if(c=='"'){
                         lexema+=c;
 
-                        tokens.add(new Token(TipoToken.STRING,lexema, lexema.replace("\"", "")));
+                        tokens.add(new Token(TipoToken.STRING,lexema, lexema));
 
                         lexema="";
                         estado = 0;
@@ -401,7 +404,7 @@ public class Scanner {
                     lexema+=c;
                     break;
                 }
-                //Comentarios
+
                 case 26:{
                     if(c=='/'){
                         lexema+=c;
@@ -422,32 +425,23 @@ public class Scanner {
                 }
 
                 case 27:{
-                    if(c!='*') {
-                        estado = 27;
-                    }
-                    else if(c=='*'){
-                        estado=28;
-                    }
+                    if(c=='*')estado=28;
                     break;
                 }
                 case 28:{
-                    if(c=='*') {
-                        estado = 28;
+                    if(c=='/'){
+                        estado=0;
+                        lexema="";
                     }
-                    else if(c=='/') {
-                        lexema = "";
-                        estado = 0;
-                    }
+                    else if(c!='*')estado=27;
+
                     break;
                 }
 
                 case 30:{
-                    if(c!=10){
-                        estado=30;
-                    } else if (c==10) {
+                    if(c==10){
                         lexema="";
                         estado=0;
-                        i--; columna--;
                     }
                     break;
                 }

@@ -1,8 +1,8 @@
-//prueba de lenguaje
-print("hola");
+// Prueba 5:
+fun sumar(variable1, variable2){
+    return variabl1 + variable2;
+}
+//sdsdwef
 
-/*wefkowe
-sd*/
-var u=5.3;
-
-<
+/* Esto es un comentario
+multilinea*/if(2*2){}
