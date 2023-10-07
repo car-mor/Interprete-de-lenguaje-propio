@@ -1,8 +1,7 @@
-//prueba de lenguaje
-print("hola");
+// Prueba 5:
+fun sumar(variable1, variable2){
+    return variabl1 + variable2;
+}
 
-[corchetes agregados]
-
-/*prueba de comentario
-
-multilínea***/
+/* Esto es un comentario
+multilinea*/if(2*2){}

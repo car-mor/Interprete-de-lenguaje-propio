@@ -435,8 +435,8 @@ public class Scanner {
                         estado = 28;
                     }
                     else if(c=='/') {
-                        estado = 29;
                         lexema = "";
+                        estado = 0;
                     }
                     break;
                 }
