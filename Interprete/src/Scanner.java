@@ -99,6 +99,12 @@ public class Scanner {
                     else if(c=='}')
                         tokens.add(new Token(TipoToken.RIGHT_BRACE,""+c));
 
+                    else if(c=='[')
+                        tokens.add(new Token((TipoToken.SQUAREBR_LEFT),""+c));
+
+                    else if(c==']')
+                        tokens.add(new Token(TipoToken.SQUAREBR_RIGHT,""+c));
+
                     else if(c==',')
                         tokens.add(new Token(TipoToken.COMMA,""+c));
 
@@ -395,7 +401,7 @@ public class Scanner {
                     lexema+=c;
                     break;
                 }
-
+                //Comentarios
                 case 26:{
                     if(c=='/'){
                         lexema+=c;
@@ -416,23 +422,32 @@ public class Scanner {
                 }
 
                 case 27:{
-                    if(c!='*')estado=28;
+                    if(c!='*') {
+                        estado = 27;
+                    }
+                    else if(c=='*'){
+                        estado=28;
+                    }
                     break;
                 }
                 case 28:{
-                    if(c=='/'){
-                        estado=0;
-                        lexema="";
+                    if(c=='*') {
+                        estado = 28;
                     }
-                    else if(c!='*')estado=27;
-
+                    else if(c=='/') {
+                        estado = 29;
+                        lexema = "";
+                    }
                     break;
                 }
 
                 case 30:{
-                    if(c==10){
+                    if(c!=10){
+                        estado=30;
+                    } else if (c==10) {
                         lexema="";
                         estado=0;
+                        i--; columna--;
                     }
                     break;
                 }
