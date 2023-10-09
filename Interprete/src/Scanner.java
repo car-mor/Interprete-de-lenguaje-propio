@@ -458,7 +458,7 @@ public class Scanner {
                 }
             }
         }
-        if(estado!=0){
+        if(estado!=0 && estado !=27 && estado!=28){
             tokens.add(new Token(TipoToken.ERROR_LEXICAL, lexema,columna,linea));
         }
         tokens.add(new Token(TipoToken.EOF,"EOF"));

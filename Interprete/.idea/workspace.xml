@@ -8,9 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/archivo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/archivo.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Interprete/Scanner.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Interprete/Scanner.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Interprete/archivo.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Scanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scanner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/archivo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/archivo.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +72,7 @@
       <workItem from="1696560047666" duration="3000" />
       <workItem from="1696561426661" duration="802000" />
       <workItem from="1696707353580" duration="4945000" />
+      <workItem from="1696797340755" duration="895000" />
     </task>
     <servers />
   </component>
