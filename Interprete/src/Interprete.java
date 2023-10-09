@@ -12,9 +12,15 @@ public class Interprete {
 
     public static void main(String[] args) throws IOException {
         if(args.length > 1) {
-            System.out.println("El uso correcto: interprete [archivo.txt]");
+            System.out.println("El uso correcto: interprete [archivo.txt]\n");
 
-            // Convención defininida en el archivo "system.h" de UNIX
+
+            for(String a:args){
+                System.out.println("\n\n\n//////////////////////////\n prueba:"+a+"\n");
+                ejecutarArchivo(a);
+
+
+            }
             System.exit(64);
         } else if(args.length == 1){
             ejecutarArchivo(args[0]);

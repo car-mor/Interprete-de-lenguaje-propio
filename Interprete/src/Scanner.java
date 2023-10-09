@@ -391,8 +391,7 @@ public class Scanner {
                     }
                     else if(c=='"'){
 
-
-                        tokens.add(new Token(TipoToken.STRING,lexema, lexema));
+                        tokens.add(new Token(TipoToken.STRING,"\""+lexema+"\"", lexema));
 
                         lexema="";
                         estado = 0;
