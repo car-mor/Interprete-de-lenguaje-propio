@@ -14,7 +14,7 @@ public class ASDR implements parser{
     @Override
     public boolean parse() {
 
-        PROGRAM();
+       // PROGRAM();
 
         if(preanalisis.tipo == TipoToken.EOF && !hayErrores){
             System.out.println("Consulta correcta");
