@@ -298,7 +298,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{
-                        Token t=new Token(TipoToken.ERROR_LEXICAL, lexema,columna,linea);
+                        Token t=new Token(TipoToken.ERROR_LEXICAL, lexema+" numerical error",columna,linea);
                         tokens.add(t);
 
                         lexema="";
@@ -335,7 +335,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{
-                        Token t=new Token(TipoToken.ERROR_LEXICAL, lexema,columna,linea);
+                        Token t=new Token(TipoToken.ERROR_LEXICAL, lexema + " numerical error",columna,linea);
                         tokens.add(t);
 
                         lexema="";
@@ -354,7 +354,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{
-                        Token t=new Token(TipoToken.ERROR_LEXICAL, lexema,columna,linea);
+                        Token t=new Token(TipoToken.ERROR_LEXICAL, lexema + " numerical error",columna,linea);
                         tokens.add(t);
 
                         lexema="";
@@ -383,8 +383,8 @@ public class Scanner {
 
                 case 24:{
                     if(c==10){
-                        tokens.add(new Token(TipoToken.ERROR_LEXICAL,"",
-                                "Unexpected line break",columna,linea));
+                        tokens.add(new Token(TipoToken.ERROR_LEXICAL,
+                                " Unexpected line break",columna,linea));
                         lexema="";
                         estado=0;
                         break;
@@ -447,7 +447,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else {
-                        tokens.add(new Token(TipoToken.ERROR_LEXICAL, lexema,columna,linea));
+                        tokens.add(new Token(TipoToken.ERROR_LEXICAL, lexema+" illegal characters",columna,linea));
 
                         lexema="";
                         estado=0;
@@ -458,7 +458,7 @@ public class Scanner {
             }
         }
         if(estado!=0 && estado !=27 && estado!=28){
-            tokens.add(new Token(TipoToken.ERROR_LEXICAL, lexema,columna,linea));
+            tokens.add(new Token(TipoToken.ERROR_LEXICAL, lexema +" Unexpected line break",columna,linea));
         }
         tokens.add(new Token(TipoToken.EOF,"EOF"));
 

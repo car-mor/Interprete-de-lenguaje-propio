@@ -57,8 +57,15 @@ public class Interprete {
             List<Token> tokens = scanner.scan();
 
             for(Token token : tokens){
-                System.out.println(token);
+                if(token.tipo==TipoToken.ERROR_LEXICAL){
+                    reportar(token.linea,token.columnaE, token.lexema );
+                    System.exit(0);
+                }
             }
+
+            parser parser=new ASDR(tokens);
+            parser.parse();
+
         }
         catch (Exception ex){
             ex.printStackTrace();
@@ -71,11 +78,9 @@ public class Interprete {
     para reportar los errores:
     Interprete.error;
      */
-     static void error(int linea, String mensaje){
-        reportar(linea, "", mensaje);
-    }
 
-    private static void reportar(int linea, String posicion, String mensaje){
+
+    private static void reportar(int linea, Integer posicion, Object mensaje){
         System.err.println(
                 "[linea " + linea + "] Error " + posicion + ": " + mensaje
         );
