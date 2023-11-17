@@ -5,18 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fea03b3b-bc35-4fda-98b9-d117879672f7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/archivo.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ASDR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASDR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Interprete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Interprete.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/archivo1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/archivo2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/archivo3.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/archivo4.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/archivo5.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/archivo6.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/archivo7.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/archivo8.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +38,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/RSB/Documents/GitHub/Interprete-de-lenguaje-propio/Interprete/src&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Carlos Moreno/Desktop/ESCOM/6toSemestre/Compiladores/Interprete/Interprete-de-lenguaje-propio/Interprete&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
