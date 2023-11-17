@@ -1,21 +1,5 @@
-//prueba de lenguaje
-print("hola");
+// Prueba 1:
+var nombre = "Nombre";
+var apellido1 = "Apellido";
 
-/*wefkowe
-sd*/
-var u=5.3;
-
-if ( hola==10){
-i=5;
-}
-#
-while(x!=1 and y+=2){
-z=10E-15;
-}
-
-if(a>2 or b<3 or c>=4 or d<=5{
-//print("numeros");
-}
-15.22.01
-if1
-<#
+print nombre + " " + apellido1;
