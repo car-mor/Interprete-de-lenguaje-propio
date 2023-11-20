@@ -30,8 +30,6 @@ public class ASDR implements parser {
     ///*******************Carlitos declaraciones
     //PROGRAM->DECLARATION
     private void PROGRAM() {
-        if (hayErrores)
-            return;
         DECLARATION();
     }
 
@@ -62,17 +60,25 @@ public class ASDR implements parser {
         }
         else {
             hayErrores = true;
-            System.out.println("Se esperaba un 'identificador'");
+            System.out.println("Se esperaba un 'fun'");
         }
     }
-    //VAR_DECL-> var id VAR_INIT
+    //VAR_DECL-> var id VAR_INIT ;
     private void VAR_DECL(){
         if (hayErrores)
             return;
         if(preanalisis.tipo == TipoToken.VAR){
             match(TipoToken.VAR);
-            match(TipoToken.IDENTIFIER);
-            VAR_INIT();
+            if(preanalisis.tipo == TipoToken.IDENTIFIER) {
+                match(TipoToken.IDENTIFIER);
+                VAR_INIT();
+                if (preanalisis.tipo == TipoToken.SEMICOLON) {
+                    match(TipoToken.SEMICOLON);
+                }
+            }
+        } else{
+            hayErrores = true;
+            System.out.println("Se esperaba una 'var'");
         }
     }
 
@@ -107,6 +113,9 @@ public class ASDR implements parser {
                     BLOCK();
                 }
             }
+        } else{
+            hayErrores = true;
+            System.out.println("Se esperaba un 'id'");
         }
     }
 
@@ -131,6 +140,9 @@ public class ASDR implements parser {
         if(preanalisis.tipo == TipoToken.IDENTIFIER){
             match(TipoToken.IDENTIFIER);
             PARAMETERS_2();
+        } else{
+            hayErrores = true;
+            System.out.println("Se esperaba un 'identificador'");
         }
     }
 
@@ -142,6 +154,9 @@ public class ASDR implements parser {
             match(TipoToken.COMMA);
             match(TipoToken.IDENTIFIER);
             PARAMETERS_2();
+        } else{
+            hayErrores = true;
+            System.out.println("Se esperaba una 'coma'");
         }
     }
 
@@ -161,6 +176,9 @@ public class ASDR implements parser {
             match(TipoToken.COMMA);
             EXPRESSION();
             ARGUMENTS();
+        } else {
+            hayErrores = true;
+            System.out.println("Se esperaba un 'coma'");
         }
     }
 
