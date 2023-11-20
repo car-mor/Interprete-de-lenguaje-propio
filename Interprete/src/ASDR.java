@@ -43,7 +43,7 @@ public class ASDR implements parser {
         } else if (preanalisis.tipo == TipoToken.VAR ) {
             VAR_DECL();
             DECLARATION();
-        } else if (preanalisis.tipo == TipoToken.BANG|preanalisis.tipo == TipoToken.FOR|preanalisis.tipo == TipoToken.IF|preanalisis.tipo==TipoToken.PRINT|preanalisis.tipo == TipoToken.RETURN|preanalisis.tipo==TipoToken.WHILE|preanalisis.tipo==TipoToken.LEFT_BRACE) {
+        } else if (preanalisis.tipo == TipoToken.BANG||preanalisis.tipo == TipoToken.FOR||preanalisis.tipo == TipoToken.IF||preanalisis.tipo==TipoToken.PRINT||preanalisis.tipo == TipoToken.RETURN||preanalisis.tipo==TipoToken.WHILE||preanalisis.tipo==TipoToken.LEFT_BRACE) {
             STATEMENT();
             DECLARATION();
         }
