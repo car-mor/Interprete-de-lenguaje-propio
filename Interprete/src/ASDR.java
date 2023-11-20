@@ -126,22 +126,16 @@ public class ASDR implements parser {
         if(preanalisis.tipo == TipoToken.BANG || preanalisis.tipo == TipoToken.MINUS || preanalisis.tipo == TipoToken.TRUE || preanalisis.tipo == TipoToken.FALSE || preanalisis.tipo == TipoToken.NULL || preanalisis.tipo == TipoToken.NUMBER || preanalisis.tipo == TipoToken.STRING || preanalisis.tipo == TipoToken.IDENTIFIER || preanalisis.tipo == TipoToken.LEFT_PAREN){
             EXPR_STMT();
         }else if (preanalisis.tipo == TipoToken.FOR){
-            match(TipoToken.FOR);
             FOR_STMT();
         }else if (preanalisis.tipo == TipoToken.IF){
-            match(TipoToken.IF);
             IF_STMT();
         }else if (preanalisis.tipo == TipoToken.PRINT){
-            match(TipoToken.PRINT);
             PRINT_STMT();
         }else if (preanalisis.tipo == TipoToken.RETURN){
-            match(TipoToken.RETURN);
             RETURN_STMT();
         }else if (preanalisis.tipo == TipoToken.WHILE){
-            match(TipoToken.WHILE);
             WHILE_STMT();
         }else if (preanalisis.tipo == TipoToken.LEFT_BRACE){
-            match(TipoToken.LEFT_BRACE);
             BLOCK();
         }
     }
@@ -213,9 +207,8 @@ public class ASDR implements parser {
         if(hayErrores) return;
         if(preanalisis.tipo == TipoToken.BANG || preanalisis.tipo == TipoToken.MINUS || preanalisis.tipo == TipoToken.TRUE || preanalisis.tipo == TipoToken.FALSE || preanalisis.tipo == TipoToken.NULL || preanalisis.tipo == TipoToken.NUMBER || preanalisis.tipo == TipoToken.STRING || preanalisis.tipo == TipoToken.IDENTIFIER || preanalisis.tipo == TipoToken.LEFT_PAREN){
             EXPRESSION();
-        } else {
-            //EPSILON
         }
+        //EPSILON
     }
 
     void IF_STMT(){
@@ -242,9 +235,9 @@ public class ASDR implements parser {
         if(preanalisis.tipo == TipoToken.ELSE){
             match(TipoToken.ELSE);
             STATEMENT();
-        } else {
-            //EPSILON
         }
+        //EPSILON
+
     }
 
     void PRINT_STMT(){
@@ -279,9 +272,9 @@ public class ASDR implements parser {
         if(hayErrores) return;
         if(preanalisis.tipo == TipoToken.BANG || preanalisis.tipo == TipoToken.MINUS || preanalisis.tipo == TipoToken.TRUE || preanalisis.tipo == TipoToken.FALSE || preanalisis.tipo == TipoToken.NULL || preanalisis.tipo == TipoToken.NUMBER || preanalisis.tipo == TipoToken.STRING || preanalisis.tipo == TipoToken.IDENTIFIER || preanalisis.tipo == TipoToken.LEFT_PAREN){
             EXPRESSION();
-        } else {
-            //EPSILON
         }
+        //EPSILON
+
     }
     void WHILE_STMT(){
         if(hayErrores) return;
@@ -308,7 +301,7 @@ public class ASDR implements parser {
             match(TipoToken.LEFT_BRACE);
             DECLARATION();
             if(preanalisis.tipo == TipoToken.RIGHT_BRACE){
-                match(TipoToken.RIGHT_PAREN);
+                match(TipoToken.RIGHT_BRACE);
             }
         } else {
             hayErrores = true;
@@ -579,9 +572,6 @@ public class ASDR implements parser {
             match(TipoToken.COMMA);
             match(TipoToken.IDENTIFIER);
             PARAMETERS_2();
-        } else{
-            hayErrores = true;
-            System.out.println("Se esperaba una 'coma'");
         }
     }
 
@@ -612,131 +602,5 @@ public class ASDR implements parser {
             i++;
             preanalisis = tokens.get(i);
         }
-        else{
-            hayErrores = true;
-            System.out.println("Error encontrado en la posicion"+ preanalisis.linea + ". Se esperaba un  " + t.tipo);
-        }
-
-    }
-    void Declaracion(){
-        if(hayErrores) return;
-        if(preanalisis.equals(fun)){
-            Fun_decl();
-            Declaracion();
-        } else if(preanalisis.equals(var)){
-            Var_decl();
-            Declaracion();
-        } else if(preanalisis.equals(para) || preanalisis.equals(si) || preanalisis.equals(imprimir) || preanalisis.equals(regresa) || preanalisis.equals(mientras) || preanalisis.equals(llave_abre) ||  preanalisis.equals(verdadero) || preanalisis.equals(falso) || preanalisis.equals(nulo) || preanalisis.equals(este) || preanalisis.equals(numero) || preanalisis.equals(cadena) || preanalisis.equals(identificador) || preanalisis.equals(parentesis_abre) || preanalisis.equals(zuper) ){
-            Statement();
-            Declaracion();
-        } else { //EPSILON
-        }
-    }
-    void Fun_decl(){
-        if(hayErrores) return;
-        if(preanalisis.equals(fun)){
-            match(fun);
-            Function();
-        }
-        else{
-            hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.linea + ". Se esperaba 'fun'.");
-        }
-    }
-    void Var_decl(){
-        if(hayErrores) return;
-        if(preanalisis.equals(var)){
-            match(var);
-            if(preanalisis.equals(identificador)){
-                match(identificador);
-                Var_init();
-                if(preanalisis.equals(puntoycoma)){
-                    match(puntoycoma);
-                }
-            }
-        } else {
-            hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.linea + ". Se esperaba una 'var'.");
-        }
-    }
-
-    ///*******************Carlitos otras
-    void Function(){
-        if(hayErrores) return;
-        if(preanalisis.equals(identificador)){
-            match(identificador);
-            if(preanalisis.equals(parentesis_abre)){
-                match(parentesis_abre);
-                Parameters_opc();
-                if(preanalisis.equals(parentesis_cierra)){
-                    match(parentesis_cierra);
-                    Block();
-                }
-            }
-        } else {
-            hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.linea + ". Se esperaba 'identificiador'.");
-        }
-    }
-    void Functions(){
-        if(hayErrores) return;
-        if(preanalisis.equals(identificador)){
-            Function();
-            Functions();
-        } else { //EPSILON
-
-        }
-
-    }
-    void Parameters_opc(){
-        if(hayErrores) return;
-        if(preanalisis.equals(identificador)){
-            match(identificador);
-            Parameters();
-        } else { //EPSILON
-
-        }
-
-    }
-    void Parameters(){
-        if(hayErrores) return;
-        if(preanalisis.equals(identificador)){
-            match(identificador);
-            Parameters_2();
-        } else {
-            hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.linea + ". Se esperaba 'identificador'.");
-        }
-    }
-
-    void Parameters_2(){
-        if(hayErrores) return;
-        if(preanalisis.equals(coma)){
-            match(coma);
-            if(preanalisis.equals(identificador)){
-               match(identificador);
-                Parameters_2();
-            }
-        } else { //EPSILON
-
-        }
-
-    }
-
-    void Arguments_opc(){
-        if(hayErrores) return;
-        if(preanalisis.equals(neg_logica) || preanalisis.equals(resta) || preanalisis.equals(verdadero) || preanalisis.equals(falso) || preanalisis.equals(nulo) || preanalisis.equals(este) || preanalisis.equals(numero) || preanalisis.equals(cadena) || preanalisis.equals(identificador) || preanalisis.equals(parentesis_abre)){
-            Arguments();
-        } else { //EPSILON
-
-        }
-
-    }
-
-    void Arguments(){
-        if(hayErrores) return;
-        Expression();
-        Arguments();
-
     }
 }
