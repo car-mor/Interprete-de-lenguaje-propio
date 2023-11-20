@@ -24,6 +24,8 @@ public class Interprete {
             System.exit(64);
         } else if(args.length == 1){
             ejecutarArchivo(args[0]);
+
+
         } else{
             System.out.println("prompt");
             ejecutarPrompt();
