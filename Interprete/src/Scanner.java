@@ -94,34 +94,34 @@ public class Scanner {
                     }
 
                     else if (c=='(')
-                        tokens.add(new Token(TipoToken.LEFT_PAREN, ""+c));
+                        tokens.add(new Token(TipoToken.LEFT_PAREN, ""+c,columna,linea));
 
                     else if(c==')')
-                        tokens.add(new Token(TipoToken.RIGHT_PAREN, ""+c));
+                        tokens.add(new Token(TipoToken.RIGHT_PAREN, ""+c,columna,linea));
 
                     else if(c=='{')
-                        tokens.add(new Token((TipoToken.LEFT_BRACE),""+c));
+                        tokens.add(new Token((TipoToken.LEFT_BRACE),""+c,columna,linea));
 
                     else if(c=='}')
-                        tokens.add(new Token(TipoToken.RIGHT_BRACE,""+c));
+                        tokens.add(new Token(TipoToken.RIGHT_BRACE,""+c,columna,linea));
 
                     else if(c==',')
-                        tokens.add(new Token(TipoToken.COMMA,""+c));
+                        tokens.add(new Token(TipoToken.COMMA,""+c,columna,linea));
 
                     else if (c=='.')
-                        tokens.add(new Token(TipoToken.DOT,""+c));
+                        tokens.add(new Token(TipoToken.DOT,""+c,columna,linea));
 
                     else if (c=='-')
-                        tokens.add(new Token(TipoToken.MINUS,""+c));
+                        tokens.add(new Token(TipoToken.MINUS,""+c,columna,linea));
 
                     else if (c=='+')
-                        tokens.add(new Token(TipoToken.PLUS,""+c));
+                        tokens.add(new Token(TipoToken.PLUS,""+c,columna,linea));
 
                     else if (c==';')
-                        tokens.add(new Token(TipoToken.SEMICOLON,""+c));
+                        tokens.add(new Token(TipoToken.SEMICOLON,""+c,columna,linea));
 
                     else if (c=='*')
-                        tokens.add(new Token(TipoToken.STAR,""+c));
+                        tokens.add(new Token(TipoToken.STAR,""+c,columna,linea));
 
                     else if (c=='>'){
                         lexema+=c;
@@ -158,7 +158,7 @@ public class Scanner {
                         lexema+=c;
                         estado=2;
                     } else {
-                        tokens.add(new Token(TipoToken.GREATER, lexema));
+                        tokens.add(new Token(TipoToken.GREATER, lexema,columna,linea));
                         lexema = "";
                         estado = 0;
                         i--;
@@ -166,7 +166,7 @@ public class Scanner {
                     }
                     break;
                 case 2: {
-                        tokens.add(new Token(TipoToken.GREATER_EQUAL, lexema));
+                        tokens.add(new Token(TipoToken.GREATER_EQUAL, lexema,columna,linea));
                         lexema = "";
                         estado = 0;
                         i--;
@@ -182,7 +182,7 @@ public class Scanner {
                         lexema+=c;
                         estado=5;
                     } else {
-                        tokens.add(new Token(TipoToken.LESS, lexema));
+                        tokens.add(new Token(TipoToken.LESS, lexema,columna,linea));
                         lexema = "";
                         estado = 0;
                         i--;
@@ -192,7 +192,7 @@ public class Scanner {
                 }
 
                 case 5:{
-                    tokens.add(new Token(TipoToken.LESS_EQUAL, lexema));
+                    tokens.add(new Token(TipoToken.LESS_EQUAL, lexema,columna,linea));
                     lexema = "";
                     estado = 0;
                     i--;
@@ -205,7 +205,7 @@ public class Scanner {
                         lexema+=c;
                         estado=8;
                     } else {
-                        tokens.add(new Token(TipoToken.EQUAL, lexema));
+                        tokens.add(new Token(TipoToken.EQUAL, lexema,columna,linea));
                         lexema = "";
                         estado = 0;
                         i--;
@@ -214,7 +214,7 @@ public class Scanner {
                     break;
                 }
                 case 8:{
-                    tokens.add(new Token(TipoToken.EQUAL_EQUAL, lexema));
+                    tokens.add(new Token(TipoToken.EQUAL_EQUAL, lexema,columna,linea));
                     lexema = "";
                     estado = 0;
                     i--;
@@ -231,12 +231,12 @@ public class Scanner {
 
                         //identificador
                         if(tt == null){
-                            Token t = new Token(TipoToken.IDENTIFIER, lexema);
+                            Token t = new Token(TipoToken.IDENTIFIER, lexema,columna,linea);
                             tokens.add(t);
                         }
                         //palabra reservada
                         else{
-                            Token t = new Token(tt, lexema);
+                            Token t = new Token(tt, lexema,columna,linea);
                             tokens.add(t);
                         }
                         estado = 0;
@@ -250,7 +250,7 @@ public class Scanner {
                         lexema+=c;
                         estado=11;
                     } else {
-                        tokens.add(new Token(TipoToken.BANG, lexema));
+                        tokens.add(new Token(TipoToken.BANG, lexema,columna,linea));
                         lexema = "";
                         estado = 0;
                         i--;
@@ -260,7 +260,7 @@ public class Scanner {
                 }
 
                 case 11:{
-                    tokens.add(new Token(TipoToken.BANG_EQUAL, lexema));
+                    tokens.add(new Token(TipoToken.BANG_EQUAL, lexema,columna,linea));
                     lexema = "";
                     estado = 0;
                     i--;
@@ -283,7 +283,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{
-                        Token t = new Token(TipoToken.NUMBER, lexema, Integer.valueOf(lexema));
+                        Token t = new Token(TipoToken.NUMBER, lexema, Integer.valueOf(lexema),columna,linea);
                         tokens.add(t);
 
                         estado = 0;
@@ -316,7 +316,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{
-                        Token t = new Token(TipoToken.NUMBER, lexema, Double.valueOf(lexema));
+                        Token t = new Token(TipoToken.NUMBER, lexema, Double.valueOf(lexema),columna,linea);
                         tokens.add(t);
 
                         estado = 0;
@@ -372,7 +372,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{
-                        Token t = new Token(TipoToken.NUMBER, lexema, lexema);
+                        Token t = new Token(TipoToken.NUMBER, lexema, lexema,columna,linea);
                         tokens.add(t);
 
                         estado = 0;
@@ -391,7 +391,7 @@ public class Scanner {
                     }
                     else if(c=='"'){
 
-                        tokens.add(new Token(TipoToken.STRING,"\""+lexema+"\"", lexema));
+                        tokens.add(new Token(TipoToken.STRING,"\""+lexema+"\"", lexema,columna,linea));
 
                         lexema="";
                         estado = 0;
@@ -411,7 +411,7 @@ public class Scanner {
                         estado=27;
                     }
                     else {
-                        tokens.add(new Token(TipoToken.SLASH,lexema));
+                        tokens.add(new Token(TipoToken.SLASH,lexema,columna,linea));
 
                         lexema="";
                         estado=0;

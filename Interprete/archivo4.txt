@@ -6,6 +6,4 @@ var area = pi*radio *radio;
 print "El area es: ";
 print area;
 
-print " Hola
-
-"
+print " Hola";

@@ -76,7 +76,7 @@ public class ASDR implements parser {
         }
         else {
             hayErrores = true;
-            System.out.println("Se esperaba un 'fun'");
+            System.out.println("Error en la línea " + preanalisis.linea + ", columna: "+ preanalisis.columnaE+". Se esperaba 'fun'.");
         }
     }
     //VAR_DECL-> var id VAR_INIT ;
@@ -91,19 +91,19 @@ public class ASDR implements parser {
                 if (preanalisis.tipo == TipoToken.SEMICOLON) {
                     match(TipoToken.SEMICOLON);
                 }
-                else{
-                    hayErrores=true;
-                    System.out.println("Se esperaba un ';'");
+                else {
+                    hayErrores = true;
+                    System.out.println("Error en la línea " + preanalisis.linea + ", columna: "+ preanalisis.columnaE+". Se esperaba ';'.");
                 }
             }
-            else{
-                hayErrores=true;
-                System.out.println("Se esperaba un Identificador");
+            else {
+                hayErrores = true;
+                System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'identifier'.");
             }
         }
-        else{
+        else {
             hayErrores = true;
-            System.out.println("Se esperaba una 'var'");
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'var'.");
         }
     }
 
@@ -115,10 +115,207 @@ public class ASDR implements parser {
             match(TipoToken.EQUAL);
             EXPRESSION();
         }
+        else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '='.");
+        }
     }
 
 
     ///*******************Vanessa sentencias
+
+    private void STATEMENT(){
+        if(hayErrores)
+            return;
+        if(preanalisis.tipo == TipoToken.BANG || preanalisis.tipo == TipoToken.MINUS || preanalisis.tipo == TipoToken.TRUE || preanalisis.tipo == TipoToken.FALSE || preanalisis.tipo == TipoToken.NULL || preanalisis.tipo == TipoToken.NUMBER || preanalisis.tipo == TipoToken.STRING || preanalisis.tipo == TipoToken.IDENTIFIER || preanalisis.tipo == TipoToken.LEFT_PAREN){
+            EXPR_STMT();
+        }else if (preanalisis.tipo == TipoToken.FOR){
+            FOR_STMT();
+        }else if (preanalisis.tipo == TipoToken.IF){
+            IF_STMT();
+        }else if (preanalisis.tipo == TipoToken.PRINT){
+            PRINT_STMT();
+        }else if (preanalisis.tipo == TipoToken.RETURN){
+            RETURN_STMT();
+        }else if (preanalisis.tipo == TipoToken.WHILE){
+            WHILE_STMT();
+        }else if (preanalisis.tipo == TipoToken.LEFT_BRACE){
+            BLOCK();
+        }
+    }
+
+    private void EXPR_STMT(){
+        if(hayErrores)
+            return;
+        EXPRESSION();
+        if(preanalisis.tipo == TipoToken.SEMICOLON){
+            match(TipoToken.SEMICOLON);
+        }else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba ';'.");
+        }
+    }
+
+    void FOR_STMT(){
+        if(hayErrores) return;
+
+        if(preanalisis.tipo == TipoToken.FOR){
+            match(TipoToken.FOR);
+            if(preanalisis.tipo == TipoToken.LEFT_PAREN){
+                match(TipoToken.LEFT_PAREN);
+                FOR_STMT_1();
+                FOR_STMT_2();
+                FOR_STMT_3();
+                if(preanalisis.tipo == TipoToken.RIGHT_PAREN){
+                    match(TipoToken.RIGHT_PAREN);
+                    STATEMENT();
+                }
+            }
+        } else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'for'.");
+        }
+    }
+
+    void FOR_STMT_1(){
+        if(hayErrores) return;
+        if(preanalisis.tipo == TipoToken.VAR){
+            VAR_DECL();
+        } else if(preanalisis.tipo == TipoToken.BANG || preanalisis.tipo == TipoToken.MINUS || preanalisis.tipo == TipoToken.TRUE || preanalisis.tipo == TipoToken.FALSE || preanalisis.tipo == TipoToken.NULL || preanalisis.tipo == TipoToken.NUMBER || preanalisis.tipo == TipoToken.STRING || preanalisis.tipo == TipoToken.IDENTIFIER || preanalisis.tipo == TipoToken.LEFT_PAREN){
+            EXPR_STMT();
+        } else if(preanalisis.tipo == TipoToken.SEMICOLON){
+            match(TipoToken.SEMICOLON);
+        } else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'var', una 'expresion' ó ';'.");
+        }
+
+    }
+
+    void FOR_STMT_2(){
+        if(hayErrores) return;
+        if(preanalisis.tipo == TipoToken.BANG || preanalisis.tipo == TipoToken.MINUS || preanalisis.tipo == TipoToken.TRUE || preanalisis.tipo == TipoToken.FALSE || preanalisis.tipo == TipoToken.NULL || preanalisis.tipo == TipoToken.NUMBER || preanalisis.tipo == TipoToken.STRING || preanalisis.tipo == TipoToken.IDENTIFIER || preanalisis.tipo == TipoToken.LEFT_PAREN){
+            EXPRESSION();
+            if(preanalisis.tipo == TipoToken.SEMICOLON){
+                match(TipoToken.SEMICOLON);
+            }
+        } else if(preanalisis.tipo == TipoToken.SEMICOLON){
+            match(TipoToken.SEMICOLON);
+        } else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'for' o ';'.");
+        }
+    }
+
+    void FOR_STMT_3(){
+        if(hayErrores) return;
+        if(preanalisis.tipo == TipoToken.BANG || preanalisis.tipo == TipoToken.MINUS || preanalisis.tipo == TipoToken.TRUE || preanalisis.tipo == TipoToken.FALSE || preanalisis.tipo == TipoToken.NULL || preanalisis.tipo == TipoToken.NUMBER || preanalisis.tipo == TipoToken.STRING || preanalisis.tipo == TipoToken.IDENTIFIER || preanalisis.tipo == TipoToken.LEFT_PAREN){
+            EXPRESSION();
+        }
+        //EPSILON
+    }
+
+    void IF_STMT(){
+        if(hayErrores) return;
+        if(preanalisis.tipo == TipoToken.IF){
+            match(TipoToken.IF);
+            if(preanalisis.tipo == TipoToken.LEFT_PAREN){
+                match(TipoToken.LEFT_PAREN);
+                EXPRESSION();
+                if(preanalisis.tipo == TipoToken.RIGHT_PAREN){
+                    match(TipoToken.RIGHT_PAREN);
+                    STATEMENT();
+                    ELSE_STATEMENT();
+                }
+            }
+        } else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'if'.");
+        }
+    }
+
+    void ELSE_STATEMENT(){
+        if(hayErrores) return;
+        if(preanalisis.tipo == TipoToken.ELSE){
+            match(TipoToken.ELSE);
+            STATEMENT();
+        }else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'else'.");
+        }
+        //EPSILON
+
+    }
+
+    void PRINT_STMT(){
+        if(hayErrores) return;
+        if(preanalisis.tipo == TipoToken.PRINT){
+            match(TipoToken.PRINT);
+            EXPRESSION();
+            if(preanalisis.tipo == TipoToken.SEMICOLON){
+                match(TipoToken.SEMICOLON);
+            }
+        } else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'print'.");
+        }
+    }
+
+    void RETURN_STMT(){
+        if(hayErrores) return;
+        if(preanalisis.tipo == TipoToken.RETURN){
+            match(TipoToken.RETURN);
+            RETURN_EXP_OPC();
+            if(preanalisis.tipo == TipoToken.SEMICOLON){
+                match(TipoToken.SEMICOLON);
+            }
+        } else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'return'.");
+        }
+    }
+
+    void RETURN_EXP_OPC(){
+        if(hayErrores) return;
+        if(preanalisis.tipo == TipoToken.BANG || preanalisis.tipo == TipoToken.MINUS || preanalisis.tipo == TipoToken.TRUE || preanalisis.tipo == TipoToken.FALSE || preanalisis.tipo == TipoToken.NULL || preanalisis.tipo == TipoToken.NUMBER || preanalisis.tipo == TipoToken.STRING || preanalisis.tipo == TipoToken.IDENTIFIER || preanalisis.tipo == TipoToken.LEFT_PAREN){
+            EXPRESSION();
+        }
+        //EPSILON
+
+    }
+    void WHILE_STMT(){
+        if(hayErrores) return;
+        if(preanalisis.tipo == TipoToken.WHILE){
+            match(TipoToken.WHILE);
+            if(preanalisis.tipo == TipoToken.LEFT_PAREN){
+                match(TipoToken.LEFT_PAREN);
+                EXPRESSION();
+                if(preanalisis.tipo == TipoToken.RIGHT_PAREN){
+                    match(TipoToken.RIGHT_PAREN);
+                    STATEMENT();
+                }
+            }
+        } else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'while'");
+        }
+    }
+
+
+    void BLOCK(){
+        if(hayErrores) return;
+        if(preanalisis.tipo == TipoToken.LEFT_BRACE){
+            match(TipoToken.LEFT_BRACE);
+            DECLARATION();
+            if(preanalisis.tipo == TipoToken.RIGHT_BRACE){
+                match(TipoToken.RIGHT_BRACE);
+            }
+        } else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '}'.");
+        }
+    }
+
 
 
     ///*******************Rodrigo Expresiones
@@ -139,6 +336,9 @@ public class ASDR implements parser {
         if(preanalisis.tipo==TipoToken.EQUAL){
             match(TipoToken.EQUAL);
             EXPRESSION();
+        }else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '='.");
         }
 
     }
@@ -155,6 +355,9 @@ public class ASDR implements parser {
             match(TipoToken.OR);
             LOGIC_AND();
             LOGIC_OR_2();
+        }else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'or'.");
         }
     }
     public void LOGIC_AND(){
@@ -170,6 +373,9 @@ public class ASDR implements parser {
             match(TipoToken.AND);
             EQUALITY();
             LOGIC_AND_2();
+        }else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'and'.");
         }
     }
     public void EQUALITY(){
@@ -190,6 +396,9 @@ public class ASDR implements parser {
             match(TipoToken.EQUAL_EQUAL);
             COMPARISON();
             EQUALITY_2();
+        }else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '!=' o '=='.");
         }
     }
     public void COMPARISON(){
@@ -212,6 +421,9 @@ public class ASDR implements parser {
 
             TERM();
             COMPARISON_2();
+        }else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '>', '>=', '<' o '<='.");
         }
     }
     public void TERM(){
@@ -228,6 +440,9 @@ public class ASDR implements parser {
             match(TipoToken.PLUS);
             FACTOR();
             TERM_2();
+        }else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '-' o '+'.");
         }
     }
     public void FACTOR(){
@@ -244,6 +459,9 @@ public class ASDR implements parser {
             match(TipoToken.STAR);
             UNARY();
             FACTOR_2();
+        }else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '/' o '*'.");
         }
     }
     public void UNARY(){
@@ -264,9 +482,9 @@ public class ASDR implements parser {
                 preanalisis.tipo==TipoToken.LEFT_PAREN){
             CALL();
         }
-        else{
-            hayErrores=true;
-            System.out.println("Se esperaba un '!' o un '-'");
+        else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '!' o '-'.");
         }
     }
     public void CALL(){
@@ -285,9 +503,9 @@ public class ASDR implements parser {
                 match(TipoToken.RIGHT_PAREN);
                 CALL_2();
             }
-            else{
-                hayErrores=true;
-                System.out.println("Se esperaba un ')'");
+            else {
+                hayErrores = true;
+                System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '('.");
             }
         }
     }
@@ -314,14 +532,14 @@ public class ASDR implements parser {
             if(preanalisis.tipo==TipoToken.RIGHT_PAREN){
                 match(TipoToken.RIGHT_PAREN);
             }
-            else{
-                hayErrores=true;
-                System.out.println("Se esperaba un ')'");
+            else {
+                hayErrores = true;
+                System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba ')'.");
             }
         }
-        else{
-            hayErrores=true;
-            System.out.println("Se esperaba un true, false, null, number, string o identificador");
+        else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'for', 'true', 'false', 'null', 'number', 'string' o 'identifier'.");
         }
 
     }
@@ -341,9 +559,9 @@ public class ASDR implements parser {
                     BLOCK();
                 }
             }
-        } else{
+        } else {
             hayErrores = true;
-            System.out.println("Se esperaba un 'id'");
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'identifier'.");
         }
     }
 
@@ -368,9 +586,9 @@ public class ASDR implements parser {
         if(preanalisis.tipo == TipoToken.IDENTIFIER){
             match(TipoToken.IDENTIFIER);
             PARAMETERS_2();
-        } else{
+        } else {
             hayErrores = true;
-            System.out.println("Se esperaba un 'identificador'");
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'identifier'.");
         }
     }
 
@@ -382,9 +600,9 @@ public class ASDR implements parser {
             match(TipoToken.COMMA);
             match(TipoToken.IDENTIFIER);
             PARAMETERS_2();
-        } else{
+        }else {
             hayErrores = true;
-            System.out.println("Se esperaba una 'coma'");
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba ',' o 'identifier'.");
         }
     }
 
@@ -406,7 +624,7 @@ public class ASDR implements parser {
             ARGUMENTS();
         } else {
             hayErrores = true;
-            System.out.println("Se esperaba un 'coma'");
+            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba ','.");
         }
     }
 

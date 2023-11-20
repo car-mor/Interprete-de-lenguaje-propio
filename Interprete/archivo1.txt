@@ -4,4 +4,3 @@ var apellido1 = "Apellido";
 
 print nombre + " " + apellido1;
 
-Desktop\ESCOM\6to Semestre\Compiladores\Interprete\Interprete-de-lenguaje-propio\Interprete\src
