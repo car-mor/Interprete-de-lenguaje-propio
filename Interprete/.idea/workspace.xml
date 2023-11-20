@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fea03b3b-bc35-4fda-98b9-d117879672f7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/archivo1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/archivo1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/archivo3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/archivo3.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/archivo4.txt" beforeDir="false" afterPath="$PROJECT_DIR$/archivo4.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ASDR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASDR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scanner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TipoToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TipoToken.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
