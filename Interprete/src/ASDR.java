@@ -43,7 +43,7 @@ public class ASDR implements parser {
         } else if (preanalisis.tipo == TipoToken.VAR ) {
             VAR_DECL();
             DECLARATION();
-        } else if (preanalisis.tipo == TipoToken.BANG|preanalisis.tipo == TipoToken.FOR|preanalisis.tipo == TipoToken.IF|preanalisis.tipo==TipoToken.PRINT|preanalisis.tipo == TipoToken.RETURN|preanalisis.tipo==TipoToken.WHILE|preanalisis.tipo==TipoToken.LEFT_BRACE) {
+        } else if (preanalisis.tipo == TipoToken.BANG||preanalisis.tipo == TipoToken.FOR||preanalisis.tipo == TipoToken.IF||preanalisis.tipo==TipoToken.PRINT||preanalisis.tipo == TipoToken.RETURN||preanalisis.tipo==TipoToken.WHILE||preanalisis.tipo==TipoToken.LEFT_BRACE) {
             STATEMENT();
             DECLARATION();
         }
@@ -92,6 +92,107 @@ public class ASDR implements parser {
         }
     }
 
+    }
+    public void ASSIGNMENT_OPC(){
+        if(hayErrores)
+            return;
+        if(preanalisis.tipo==TipoToken.EQUAL){
+            match(TipoToken.EQUAL);
+            EXPRESSION();
+        }
+
+    }
+    public void LOGIC_OR(){
+        if(hayErrores)
+            return;
+        LOGIC_AND();
+        LOGIC_OR_2();
+    }
+    public void LOGIC_OR_2(){
+        if(hayErrores)
+            return;
+        if(preanalisis.tipo==TipoToken.OR){
+            match(TipoToken.OR);
+            LOGIC_AND();
+            LOGIC_OR_2();
+        }
+    }
+    public void LOGIC_AND(){
+        if(hayErrores)
+            return;
+        EQUALITY();
+        LOGIC_AND_2();
+    }
+    public void LOGIC_AND_2(){
+        if(hayErrores)
+            return;
+        if(preanalisis.tipo==TipoToken.AND){
+            match(TipoToken.AND);
+            EQUALITY();
+            LOGIC_AND_2();
+        }
+    }
+    public void EQUALITY(){
+        if(hayErrores)
+            return;
+        COMPARISON();
+        EQUALITY_2();
+    }
+    public void EQUALITY_2(){
+        if(hayErrores)
+            return;
+        if(preanalisis.tipo==TipoToken.BANG_EQUAL){
+            match(TipoToken.BANG_EQUAL);
+            COMPARISON();
+            EQUALITY_2();
+        }
+
+        if(preanalisis.tipo==TipoToken.BANG_EQUAL){
+            match(TipoToken.BANG_EQUAL);
+            COMPARISON();
+            EQUALITY_2();
+        }
+    }
+    public void COMPARISON(){
+        if(hayErrores)
+            return;
+        TERM();
+        COMPARISON_2();
+    }
+    public void COMPARISON_2(){
+        if(hayErrores)
+            return;
+        if(preanalisis.tipo==TipoToken.LESS
+            || preanalisis.tipo==TipoToken.LESS_EQUAL
+            || preanalisis.tipo==TipoToken.GREATER
+            || preanalisis.tipo==TipoToken.GREATER_EQUAL){
+            match();
+        }
+    }
+    public void TERM(){
+
+    }
+    public void TERM_2(){
+
+    }
+    public void FACTOR(){
+
+    }
+    public void FACTOR_2(){
+
+    }
+    public void UNARY(){
+
+    }
+    public void CALL(){
+
+    }
+    public void CALL_2(){
+
+    }
+    public void PRIMARY(){
+
+    }
     ///*******************Vanessa sentencias
 
 
