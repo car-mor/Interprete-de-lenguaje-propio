@@ -1,4 +1,4 @@
-
+package interpreter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -226,7 +226,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{
-                        // Vamos a crear el Token de IDENTIFICADOR o palabra reservada
+                        // Vamos a crear el interpreter.Token de IDENTIFICADOR o palabra reservada
                         TipoToken tt = palabrasReservadas.get(lexema);
 
                         //identificador

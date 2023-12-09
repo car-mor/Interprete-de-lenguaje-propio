@@ -1,3 +1,5 @@
+package interpreter;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -85,7 +87,7 @@ public class Interprete {
     /*
     El método error se puede usar desde las distintas clases
     para reportar los errores:
-    Interprete.error;
+    interpreter.Interprete.error;
      */
 
 

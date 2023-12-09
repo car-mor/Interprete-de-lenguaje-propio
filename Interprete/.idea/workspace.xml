@@ -5,8 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fea03b3b-bc35-4fda-98b9-d117879672f7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Interprete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Interprete.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Interprete/ASDR.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Interprete/Interprete.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Interprete/Scanner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Interprete/TipoToken.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Interprete/Token.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Interprete/parser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ASDR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interpreter/ASDR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Interprete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interpreter/Interprete.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interpreter/Scanner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TipoToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interpreter/TipoToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interpreter/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interpreter/parser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +30,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -36,6 +50,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "C:/Users/Carlos Moreno/Desktop/ESCOM/6toSemestre/Compiladores/Interprete/Interprete-de-lenguaje-propio/Interprete/Interprete",
     "node.js.detected.package.eslint": "true",
@@ -53,7 +68,7 @@
   </component>
   <component name="RunManager">
     <configuration name="texto" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="Interprete" />
+      <option name="MAIN_CLASS_NAME" value="interpreter.Interprete" />
       <module name="Interprete" />
       <option name="PROGRAM_PARAMETERS" value="archivo7.txt" />
       <method v="2">
