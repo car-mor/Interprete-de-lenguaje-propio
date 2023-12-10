@@ -3,9 +3,9 @@ package interpreter;
 public class Token {
 
     public final TipoToken tipo;
-    final String lexema;
-    final Object literal;
-    final Integer columnaE;
+    public final String lexema;
+    public final Object literal;
+    public final Integer columnaE;
     public final Integer linea;
 
     public Token(TipoToken tipo, String lexema) {

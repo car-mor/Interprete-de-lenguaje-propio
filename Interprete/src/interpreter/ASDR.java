@@ -1,5 +1,6 @@
-package interpreter;
+/*package interpreter;
 
+import parser.*;
 import java.util.List;
 public class ASDR implements parser {
 
@@ -350,8 +351,9 @@ public class ASDR implements parser {
 
     ///*******************Rodrigo Expresiones
     public void EXPRESSION(){
+
         if(hayErrores)
-            return;
+            return ;
         ASSIGNMENT();
     }
     public void ASSIGNMENT(){
@@ -519,22 +521,28 @@ public class ASDR implements parser {
         }
         //epsilon
     }
-    public void PRIMARY(){
+    public Expression PRIMARY(){
         if (hayErrores)
-            return;
+            return null;
         if( preanalisis.tipo==TipoToken.TRUE||
             preanalisis.tipo==TipoToken.FALSE||
-            preanalisis.tipo==TipoToken.NULL||
             preanalisis.tipo==TipoToken.NUMBER||
-            preanalisis.tipo==TipoToken.STRING||
-            preanalisis.tipo==TipoToken.IDENTIFIER){
-
+            preanalisis.tipo==TipoToken.STRING
+            ){
             match(TipoToken.TRUE);
             match(TipoToken.FALSE);
-            match(TipoToken.NULL);
             match(TipoToken.NUMBER);
             match(TipoToken.STRING);
+
+            return new ExprLiteral();
+        }
+        else if(preanalisis.tipo==TipoToken.IDENTIFIER){
             match(TipoToken.IDENTIFIER);
+
+        }
+        else if(preanalisis.tipo==TipoToken.NULL){
+            match(TipoToken.NULL);
+
         }
         else if (preanalisis.tipo==TipoToken.LEFT_PAREN){
             match(TipoToken.LEFT_PAREN);
@@ -551,7 +559,7 @@ public class ASDR implements parser {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'true', 'false', 'null', 'number', 'string' o 'identifier'.");
         }
-
+        return null;
     }
 
     ///*******************Carlitos otras
@@ -655,3 +663,4 @@ public class ASDR implements parser {
         }
     }
 }
+*/
