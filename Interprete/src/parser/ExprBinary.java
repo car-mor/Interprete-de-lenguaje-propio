@@ -1,8 +1,9 @@
-package mx.ipn.escom.k.parser;
+package parser;
 
-import mx.ipn.escom.k.tools.Token;
+import interpreter.Token;
 
-public class ExprBinary extends Expression{
+
+public class ExprBinary extends Expression {
     final Expression left;
     final Token operator;
     final Expression right;

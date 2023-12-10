@@ -1,8 +1,11 @@
-package mx.ipn.escom.k.parser;
+package parser;
 
-import mx.ipn.escom.k.tools.Token;
+import interpreter.Token;
 
-public class ExprAssign extends Expression{
+
+import parser.Expression;
+
+public class ExprAssign extends Expression {
     final Token name;
     final Expression value;
 

@@ -1,8 +1,9 @@
-package mx.ipn.escom.k.parser;
+package parser;
 
-import mx.ipn.escom.k.tools.Token;
+import interpreter.Token;
+//import java.beans.Expression;
 
-public class ExprSet extends Expression{
+public class ExprSet extends Expression {
     final Expression object;
     final Token name;
     final Expression value;

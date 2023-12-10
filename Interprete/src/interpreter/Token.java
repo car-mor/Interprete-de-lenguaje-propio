@@ -2,11 +2,11 @@ package interpreter;
 
 public class Token {
 
-    final TipoToken tipo;
+    public final TipoToken tipo;
     final String lexema;
     final Object literal;
     final Integer columnaE;
-    final Integer linea;
+    public final Integer linea;
 
     public Token(TipoToken tipo, String lexema) {
         this.tipo = tipo;

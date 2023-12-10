@@ -1,6 +1,6 @@
-package mx.ipn.escom.k.parser;
+package parser;
 
-import mx.ipn.escom.k.tools.Token;
+import interpreter.Token;
 
 import java.util.List;
 
