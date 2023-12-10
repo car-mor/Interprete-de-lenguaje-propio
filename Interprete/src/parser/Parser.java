@@ -523,32 +523,32 @@ public class Parser {
         }
         //epsilon
     }
-    public Expression PRIMARY(){
+    public void PRIMARY(){
         if (hayErrores)
-            return null;
+            return ;
         if( preanalisis.tipo==TipoToken.TRUE){
             match(TipoToken.TRUE);
-            return new ExprLiteral(true);
+            //return new ExprLiteral(true);
         }
         else if(preanalisis.tipo==TipoToken.FALSE){
             match(TipoToken.FALSE);
-            return new ExprLiteral(false);
+            //return new ExprLiteral(false);
         }
         else if(preanalisis.tipo==TipoToken.NUMBER){
             match(TipoToken.NUMBER);
-            return new ExprLiteral(preanalisis.literal);
+           // return new ExprLiteral(preanalisis.literal);
         }
         else if(preanalisis.tipo==TipoToken.STRING){
             match(TipoToken.STRING);
-            return new ExprLiteral(preanalisis.literal);
+           // return new ExprLiteral(preanalisis.literal);
         }
         else if(preanalisis.tipo==TipoToken.IDENTIFIER){
             match(TipoToken.IDENTIFIER);
-            return new ExprVariable(preanalisis.lexema);
+           // return new ExprVariable(preanalisis.lexema);
         }
         else if(preanalisis.tipo==TipoToken.NULL){
             match(TipoToken.NULL);
-            return new ExprLiteral(null);
+           // return new ExprLiteral(null);
         }
         else if (preanalisis.tipo==TipoToken.LEFT_PAREN){
             match(TipoToken.LEFT_PAREN);
@@ -565,7 +565,7 @@ public class Parser {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'true', 'false', 'null', 'number', 'string' o 'identifier'.");
         }
-        return null;
+
     }
 
     ///*******************Carlitos otras
