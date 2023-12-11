@@ -2,7 +2,6 @@ package parser;
 
 import interpreter.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
@@ -360,81 +359,97 @@ public class Parser {
         return new ExprAssign(preanalisis, ASSIGNMENT());
 
     }
-    public ExprAssign ASSIGNMENT(){
+    public Expression ASSIGNMENT(){
         if(hayErrores)
             return null;
-        LOGIC_OR();
-        ASSIGNMENT_OPC();
-        return null;
+        Expression exp = LOGIC_OR();
+        return ASSIGNMENT_OPC(exp);
     }
-    public void ASSIGNMENT_OPC(){
+    public ExprBinary ASSIGNMENT_OPC(Expression exp){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo==TipoToken.EQUAL){
             match(TipoToken.EQUAL);
-            EXPRESSION();
+            Token previous = tokens.get(i - 1);
+            Expression expR=EXPRESSION();
+            return new ExprBinary(exp,previous,expR);
         }
-
+        return null;
     }
-    public void LOGIC_OR(){
+    public Expression LOGIC_OR(){
         if(hayErrores)
-            return;
-        LOGIC_AND();
-        LOGIC_OR_2();
+            return null;
+        Expression exp= LOGIC_AND();
+        exp = LOGIC_OR_2(exp);
+        return exp;
     }
-    public void LOGIC_OR_2(){
+    public Expression LOGIC_OR_2(Expression exp){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo==TipoToken.OR){
             match(TipoToken.OR);
-            LOGIC_AND();
-            LOGIC_OR_2();
+            Token previous = tokens.get(i - 1);
+            Expression expR=LOGIC_AND();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return LOGIC_OR_2(expb);
         }
+        return null;
     }
-    public void LOGIC_AND(){
+    public Expression LOGIC_AND(){
         if(hayErrores)
-            return;
-        EQUALITY();
-        LOGIC_AND_2();
+            return null;
+        Expression exp = EQUALITY();
+        exp = LOGIC_AND_2(exp);
+        return exp;
     }
-    public void LOGIC_AND_2(){
+    public Expression LOGIC_AND_2(Expression exp){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo==TipoToken.AND){
             match(TipoToken.AND);
-            EQUALITY();
-            LOGIC_AND_2();
+            Token previous = tokens.get(i - 1);
+            Expression expR=EQUALITY();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return LOGIC_AND_2(expb);
         }
+        return null;
     }
-    public void EQUALITY(){
+    public Expression EQUALITY(){
         if(hayErrores)
-            return;
-        COMPARISON();
-        EQUALITY_2();
+            return null;
+        Expression exp = COMPARISON();
+        exp = EQUALITY_2(exp);
+        return exp;
     }
-    public void EQUALITY_2(){
+    public Expression EQUALITY_2(Expression exp){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo==TipoToken.BANG_EQUAL){
             match(TipoToken.BANG_EQUAL);
-            COMPARISON();
-            EQUALITY_2();
+            Token previous = tokens.get(i - 1);
+            Expression expR=COMPARISON();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return EQUALITY_2(expb);
         }
         else if(preanalisis.tipo==TipoToken.EQUAL_EQUAL){
             match(TipoToken.EQUAL_EQUAL);
-            COMPARISON();
-            EQUALITY_2();
+            Token previous = tokens.get(i - 1);
+            Expression expR=COMPARISON();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return EQUALITY_2(expb);
         }
+        return null;
     }
-    public void COMPARISON(){
+    public Expression COMPARISON(){
         if(hayErrores)
-            return;
-        TERM();
-        COMPARISON_2();
+            return null;
+        Expression exp = TERM();
+        exp = COMPARISON_2(exp);
+        return exp;
     }
-    public void COMPARISON_2(){
+    public Expression COMPARISON_2(Expression exp){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo==TipoToken.LESS
                 || preanalisis.tipo==TipoToken.LESS_EQUAL
                 || preanalisis.tipo==TipoToken.GREATER
@@ -444,29 +459,36 @@ public class Parser {
             match(TipoToken.GREATER);
             match(TipoToken.GREATER_EQUAL);
 
-            TERM();
-            COMPARISON_2();
+            Token previous = tokens.get(i - 1);
+            Expression expR=TERM();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return COMPARISON_2(expb);
         }
+        return null;
     }
-    public void TERM(){
+    public Expression TERM(){
         if(hayErrores)
-            return;
-        FACTOR();
-        TERM_2();
+            return null;
+        Expression exp = FACTOR();
+        exp=TERM_2(exp);
+        return exp;
     }
-    public void TERM_2(){
+    public Expression TERM_2(Expression exp){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo==TipoToken.PLUS || preanalisis.tipo==TipoToken.MINUS){
             match(TipoToken.MINUS);
             match(TipoToken.PLUS);
-            FACTOR();
-            TERM_2();
+            Token previous = tokens.get(i - 1);
+            Expression exR= FACTOR();
+            ExprBinary exb = new ExprBinary(exp,previous,exR);
+            return TERM_2(exb);
         }
+        return null;
     }
-    public void FACTOR(){
+    public Expression FACTOR(){
         if (hayErrores)
-            return;
+            return null;
         Expression exp = UNARY();
         exp=FACTOR_2(exp);
         return exp;
@@ -507,12 +529,12 @@ public class Parser {
         }
         else if(
                 preanalisis.tipo==TipoToken.TRUE||
-                preanalisis.tipo==TipoToken.FALSE||
-                preanalisis.tipo==TipoToken.NULL||
-                preanalisis.tipo==TipoToken.NUMBER||
-                preanalisis.tipo==TipoToken.STRING||
-                preanalisis.tipo==TipoToken.IDENTIFIER||
-                preanalisis.tipo==TipoToken.LEFT_PAREN){
+                        preanalisis.tipo==TipoToken.FALSE||
+                        preanalisis.tipo==TipoToken.NULL||
+                        preanalisis.tipo==TipoToken.NUMBER||
+                        preanalisis.tipo==TipoToken.STRING||
+                        preanalisis.tipo==TipoToken.IDENTIFIER||
+                        preanalisis.tipo==TipoToken.LEFT_PAREN){
             return CALL();
         }
         else {
