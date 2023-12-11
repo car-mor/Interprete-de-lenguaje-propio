@@ -124,29 +124,30 @@ public class Parser {
 
     ///*******************Vanessa sentencias
 
-    private void STATEMENT(){
+    public Statement STATEMENT(){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo == TipoToken.BANG || preanalisis.tipo == TipoToken.MINUS || preanalisis.tipo == TipoToken.TRUE || preanalisis.tipo == TipoToken.FALSE || preanalisis.tipo == TipoToken.NULL || preanalisis.tipo == TipoToken.NUMBER || preanalisis.tipo == TipoToken.STRING || preanalisis.tipo == TipoToken.IDENTIFIER || preanalisis.tipo == TipoToken.LEFT_PAREN){
-            EXPR_STMT();
+            StmtExpression exp = EXPR_STMT();
         }else if (preanalisis.tipo == TipoToken.FOR){
-            FOR_STMT();
+            StmtLoop exp = FOR_STMT();
         }else if (preanalisis.tipo == TipoToken.IF){
-            IF_STMT();
+            StmtIf exp = IF_STMT();
         }else if (preanalisis.tipo == TipoToken.PRINT){
-            PRINT_STMT();
+            StmtPrint exp = PRINT_STMT();
         }else if (preanalisis.tipo == TipoToken.RETURN){
-            RETURN_STMT();
+            StmtReturn exp = RETURN_STMT();
         }else if (preanalisis.tipo == TipoToken.WHILE){
             WHILE_STMT();
         }else if (preanalisis.tipo == TipoToken.LEFT_BRACE){
-            BLOCK();
+            StmtBlock exp = BLOCK();
         }
+        return null;
     }
 
-    private void EXPR_STMT(){
+    public StmtExpression EXPR_STMT(){
         if(hayErrores)
-            return;
+            return null;
         EXPRESSION();
         if(preanalisis.tipo == TipoToken.SEMICOLON){
             match(TipoToken.SEMICOLON);
@@ -154,10 +155,11 @@ public class Parser {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba ';'.");
         }
+        return null;
     }
 
-    void FOR_STMT(){
-        if(hayErrores) return;
+    StmtLoop FOR_STMT(){
+        if(hayErrores) return null;
 
         if(preanalisis.tipo == TipoToken.FOR){
             match(TipoToken.FOR);
@@ -183,6 +185,7 @@ public class Parser {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'for'.");
         }
+        return null;
     }
 
     void FOR_STMT_1(){
@@ -223,17 +226,22 @@ public class Parser {
         //EPSILON
     }
 
-    void IF_STMT(){
-        if(hayErrores) return;
+    public StmtIf IF_STMT(){
+        if(hayErrores) return null;
         if(preanalisis.tipo == TipoToken.IF){
             match(TipoToken.IF);
             if(preanalisis.tipo == TipoToken.LEFT_PAREN){
                 match(TipoToken.LEFT_PAREN);
-                EXPRESSION();
+
+                Expression exp = EXPRESSION();
                 if(preanalisis.tipo == TipoToken.RIGHT_PAREN){
                     match(TipoToken.RIGHT_PAREN);
-                    STATEMENT();
-                    ELSE_STATEMENT();
+
+                    Statement thenBranch = STATEMENT();
+                    Statement elseBranch = ELSE_STATEMENT();
+
+                    StmtIf stm= new StmtIf(exp,thenBranch,elseBranch);
+
                 }
                 else {
                     hayErrores = true;
@@ -248,22 +256,24 @@ public class Parser {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'if'.");
         }
+        return null;
     }
 
-    void ELSE_STATEMENT(){
-        if(hayErrores) return;
+    public Statement ELSE_STATEMENT(){
+        if(hayErrores) return null;
         if(preanalisis.tipo == TipoToken.ELSE){
             match(TipoToken.ELSE);
-            STATEMENT();
+            return STATEMENT();
         }
-
+        return null;
     }
 
-    void PRINT_STMT(){
-        if(hayErrores) return;
+    public StmtPrint PRINT_STMT(){
+        if(hayErrores) return null;
         if(preanalisis.tipo == TipoToken.PRINT){
             match(TipoToken.PRINT);
-            EXPRESSION();
+            Expression exp = EXPRESSION();
+            StmtPrint stm= new StmtPrint(exp);
             if(preanalisis.tipo == TipoToken.SEMICOLON){
                 match(TipoToken.SEMICOLON);
             }
@@ -275,13 +285,14 @@ public class Parser {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'print'.");
         }
+        return null;
     }
 
-    void RETURN_STMT(){
-        if(hayErrores) return;
+    public StmtReturn RETURN_STMT(){
+        if(hayErrores) return null;
         if(preanalisis.tipo == TipoToken.RETURN){
             match(TipoToken.RETURN);
-            RETURN_EXP_OPC();
+            return RETURN_EXP_OPC();
             if(preanalisis.tipo == TipoToken.SEMICOLON){
                 match(TipoToken.SEMICOLON);
             }
@@ -293,23 +304,26 @@ public class Parser {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'return'.");
         }
+        return null;
     }
 
-    void RETURN_EXP_OPC(){
-        if(hayErrores) return;
+    public StmtReturn RETURN_EXP_OPC(){
+        if(hayErrores) return null;
         if(preanalisis.tipo == TipoToken.BANG || preanalisis.tipo == TipoToken.MINUS || preanalisis.tipo == TipoToken.TRUE || preanalisis.tipo == TipoToken.FALSE || preanalisis.tipo == TipoToken.NULL || preanalisis.tipo == TipoToken.NUMBER || preanalisis.tipo == TipoToken.STRING || preanalisis.tipo == TipoToken.IDENTIFIER || preanalisis.tipo == TipoToken.LEFT_PAREN){
-            EXPRESSION();
+            Expression exp = EXPRESSION();
+            StmtReturn stm = new StmtReturn(exp);
         }
         //EPSILON
-
+        return null;
     }
-    void WHILE_STMT(){
-        if(hayErrores) return;
+
+    Statement WHILE_STMT(){
+        if(hayErrores) return null;
         if(preanalisis.tipo == TipoToken.WHILE){
             match(TipoToken.WHILE);
             if(preanalisis.tipo == TipoToken.LEFT_PAREN){
                 match(TipoToken.LEFT_PAREN);
-                EXPRESSION();
+                Expression exp = EXPRESSION();
                 if(preanalisis.tipo == TipoToken.RIGHT_PAREN){
                     match(TipoToken.RIGHT_PAREN);
                     STATEMENT();
@@ -327,14 +341,15 @@ public class Parser {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'while'");
         }
+        return null;
     }
 
 
-    void BLOCK(){
-        if(hayErrores) return;
+    public StmtBlock BLOCK(){
+        if(hayErrores) return null;
         if(preanalisis.tipo == TipoToken.LEFT_BRACE){
             match(TipoToken.LEFT_BRACE);
-            DECLARATION();
+            return DECLARATION();
             if(preanalisis.tipo == TipoToken.RIGHT_BRACE){
                 match(TipoToken.RIGHT_BRACE);
             }
@@ -347,8 +362,13 @@ public class Parser {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '{'.");
         }
+        return null;
     }
 
+    private Statement BLOCK(StmtBlock exp2) {
+
+
+    }
 
 
     ///*******************Rodrigo Expresiones
