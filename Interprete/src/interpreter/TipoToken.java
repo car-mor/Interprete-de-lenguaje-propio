@@ -1,6 +1,8 @@
+package interpreter;
+
 public enum TipoToken {
 
-    //ERROR Token
+    //ERROR interpreter.Token
     ERROR_LEXICAL,
 
     // Tokens de un sólo caracter, estados de 33
@@ -20,7 +22,8 @@ public enum TipoToken {
     AND, ELSE, FALSE, FUN, FOR, IF, NULL, OR,
     PRINT, RETURN, TRUE, VAR, WHILE,
 
-
+    //arbol
+    CLASS,
 
     EOF
 }

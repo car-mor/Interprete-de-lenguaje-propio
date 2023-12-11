@@ -1,10 +1,12 @@
+package interpreter;
+
 public class Token {
 
-    final TipoToken tipo;
-    final String lexema;
-    final Object literal;
-    final Integer columnaE;
-    final Integer linea;
+    public final TipoToken tipo;
+    public final String lexema;
+    public final Object literal;
+    public final Integer columnaE;
+    public final Integer linea;
 
     public Token(TipoToken tipo, String lexema) {
         this.tipo = tipo;
