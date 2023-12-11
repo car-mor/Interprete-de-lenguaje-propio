@@ -374,86 +374,104 @@ public class Parser {
 
 
     ///*******************Rodrigo Expresiones
-    public void EXPRESSION(){
+    public Expression EXPRESSION(){
 
         if(hayErrores)
-            return ;
-        ASSIGNMENT();
+            return null;
+        return new ExprAssign(preanalisis, ASSIGNMENT());
+
     }
-    public void ASSIGNMENT(){
+    public Expression ASSIGNMENT(){
         if(hayErrores)
-            return;
-        LOGIC_OR();
-        ASSIGNMENT_OPC();
+            return null;
+        Expression exp = LOGIC_OR();
+        return ASSIGNMENT_OPC(exp);
     }
-    public void ASSIGNMENT_OPC(){
+    public ExprBinary ASSIGNMENT_OPC(Expression exp){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo==TipoToken.EQUAL){
             match(TipoToken.EQUAL);
-            EXPRESSION();
+            Token previous = tokens.get(i - 1);
+            Expression expR=EXPRESSION();
+            return new ExprBinary(exp,previous,expR);
         }
-
+        return null;
     }
-    public void LOGIC_OR(){
+    public Expression LOGIC_OR(){
         if(hayErrores)
-            return;
-        LOGIC_AND();
-        LOGIC_OR_2();
+            return null;
+        Expression exp= LOGIC_AND();
+        exp = LOGIC_OR_2(exp);
+        return exp;
     }
-    public void LOGIC_OR_2(){
+    public Expression LOGIC_OR_2(Expression exp){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo==TipoToken.OR){
             match(TipoToken.OR);
-            LOGIC_AND();
-            LOGIC_OR_2();
+            Token previous = tokens.get(i - 1);
+            Expression expR=LOGIC_AND();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return LOGIC_OR_2(expb);
         }
+        return null;
     }
-    public void LOGIC_AND(){
+    public Expression LOGIC_AND(){
         if(hayErrores)
-            return;
-        EQUALITY();
-        LOGIC_AND_2();
+            return null;
+        Expression exp = EQUALITY();
+        exp = LOGIC_AND_2(exp);
+        return exp;
     }
-    public void LOGIC_AND_2(){
+    public Expression LOGIC_AND_2(Expression exp){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo==TipoToken.AND){
             match(TipoToken.AND);
-            EQUALITY();
-            LOGIC_AND_2();
+            Token previous = tokens.get(i - 1);
+            Expression expR=EQUALITY();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return LOGIC_AND_2(expb);
         }
+        return null;
     }
-    public void EQUALITY(){
+    public Expression EQUALITY(){
         if(hayErrores)
-            return;
-        COMPARISON();
-        EQUALITY_2();
+            return null;
+        Expression exp = COMPARISON();
+        exp = EQUALITY_2(exp);
+        return exp;
     }
-    public void EQUALITY_2(){
+    public Expression EQUALITY_2(Expression exp){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo==TipoToken.BANG_EQUAL){
             match(TipoToken.BANG_EQUAL);
-            COMPARISON();
-            EQUALITY_2();
+            Token previous = tokens.get(i - 1);
+            Expression expR=COMPARISON();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return EQUALITY_2(expb);
         }
         else if(preanalisis.tipo==TipoToken.EQUAL_EQUAL){
             match(TipoToken.EQUAL_EQUAL);
-            COMPARISON();
-            EQUALITY_2();
+            Token previous = tokens.get(i - 1);
+            Expression expR=COMPARISON();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return EQUALITY_2(expb);
         }
+        return null;
     }
-    public void COMPARISON(){
+    public Expression COMPARISON(){
         if(hayErrores)
-            return;
-        TERM();
-        COMPARISON_2();
+            return null;
+        Expression exp = TERM();
+        exp = COMPARISON_2(exp);
+        return exp;
     }
-    public void COMPARISON_2(){
+    public Expression COMPARISON_2(Expression exp){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo==TipoToken.LESS
                 || preanalisis.tipo==TipoToken.LESS_EQUAL
                 || preanalisis.tipo==TipoToken.GREATER
@@ -463,49 +481,73 @@ public class Parser {
             match(TipoToken.GREATER);
             match(TipoToken.GREATER_EQUAL);
 
-            TERM();
-            COMPARISON_2();
+            Token previous = tokens.get(i - 1);
+            Expression expR=TERM();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return COMPARISON_2(expb);
         }
+        return null;
     }
-    public void TERM(){
+    public Expression TERM(){
         if(hayErrores)
-            return;
-        FACTOR();
-        TERM_2();
+            return null;
+        Expression exp = FACTOR();
+        exp=TERM_2(exp);
+        return exp;
     }
-    public void TERM_2(){
+    public Expression TERM_2(Expression exp){
         if(hayErrores)
-            return;
+            return null;
         if(preanalisis.tipo==TipoToken.PLUS || preanalisis.tipo==TipoToken.MINUS){
             match(TipoToken.MINUS);
             match(TipoToken.PLUS);
-            FACTOR();
-            TERM_2();
+            Token previous = tokens.get(i - 1);
+            Expression exR= FACTOR();
+            ExprBinary exb = new ExprBinary(exp,previous,exR);
+            return TERM_2(exb);
         }
+        return null;
     }
-    public void FACTOR(){
+    public Expression FACTOR(){
         if (hayErrores)
-            return;
-        UNARY();
-        FACTOR_2();
+            return null;
+        Expression exp = UNARY();
+        exp=FACTOR_2(exp);
+        return exp;
     }
-    public void FACTOR_2(){
+    public Expression FACTOR_2(Expression exp){
         if (hayErrores)
-            return;
-        if (preanalisis.tipo==TipoToken.SLASH || preanalisis.tipo==TipoToken.STAR){
+            return null;
+        if (preanalisis.tipo==TipoToken.SLASH ){
             match(TipoToken.SLASH);
-            match(TipoToken.STAR);
-            UNARY();
-            FACTOR_2();
+            Token previous = tokens.get(i - 1);
+            Expression expR=UNARY();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return FACTOR_2(expb);
         }
+        else if ( preanalisis.tipo==TipoToken.STAR){
+            match(TipoToken.STAR);
+            Token previous = tokens.get(i - 1);
+            Expression expR=UNARY();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return FACTOR_2(expb);
+        }
+        return null;
     }
-    public void UNARY(){
+    public Expression UNARY(){
         if(hayErrores)
-            return;
-        if(preanalisis.tipo==TipoToken.BANG || preanalisis.tipo==TipoToken.MINUS){
+            return null;
+        if(preanalisis.tipo==TipoToken.BANG){
             match(TipoToken.BANG);
+            Token previous = tokens.get(i - 1);
+            Expression exp=UNARY();
+            return new ExprUnary(previous,exp);
+        }
+        else if(preanalisis.tipo==TipoToken.MINUS){
             match(TipoToken.MINUS);
-            UNARY();
+            Token previus = tokens.get(i - 1);
+            Expression exp=UNARY();
+            return new ExprUnary(previus,exp);
         }
         else if(
                 preanalisis.tipo==TipoToken.TRUE||
@@ -515,68 +557,74 @@ public class Parser {
                         preanalisis.tipo==TipoToken.STRING||
                         preanalisis.tipo==TipoToken.IDENTIFIER||
                         preanalisis.tipo==TipoToken.LEFT_PAREN){
-            CALL();
+            return CALL();
         }
         else {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '!', '-', 'true', 'false', 'null', 'number', 'string' o 'identifier'.");
+            return null;
         }
     }
-    public void CALL(){
+    public Expression CALL(){
         if (hayErrores)
-            return;
-        PRIMARY();
-        CALL_2();
+            return null;
+        Expression exp = PRIMARY();
+        exp = CALL_2(exp);
+        return exp;
     }
-    public void CALL_2(){
+    public Expression CALL_2(Expression exp){
         if (hayErrores)
-            return;
+            return null;
         if (preanalisis.tipo==TipoToken.LEFT_PAREN){
             match(TipoToken.LEFT_PAREN);
-            ARGUMENTS_OPC();
+            List<Expression> arguments=ARGUMENTS_OPC();
             if(preanalisis.tipo==TipoToken.RIGHT_PAREN){
                 match(TipoToken.RIGHT_PAREN);
-                CALL_2();
+                ExprCallFunction ecf = new ExprCallFunction(exp, arguments);
+                return CALL_2(ecf);
             }
             else {
                 hayErrores = true;
                 System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '('.");
             }
         }
+        return null;
         //epsilon
     }
-    public void PRIMARY(){
+    public Expression PRIMARY(){
         if (hayErrores)
-            return ;
+            return null;
         if( preanalisis.tipo==TipoToken.TRUE){
             match(TipoToken.TRUE);
-            //return new ExprLiteral(true);
+            return new ExprLiteral(true);
         }
         else if(preanalisis.tipo==TipoToken.FALSE){
             match(TipoToken.FALSE);
-            //return new ExprLiteral(false);
+            return new ExprLiteral(false);
         }
         else if(preanalisis.tipo==TipoToken.NUMBER){
             match(TipoToken.NUMBER);
-           // return new ExprLiteral(preanalisis.literal);
+            return new ExprLiteral(preanalisis.literal);
         }
         else if(preanalisis.tipo==TipoToken.STRING){
             match(TipoToken.STRING);
-           // return new ExprLiteral(preanalisis.literal);
+            return new ExprLiteral(preanalisis.literal);
         }
         else if(preanalisis.tipo==TipoToken.IDENTIFIER){
             match(TipoToken.IDENTIFIER);
-           // return new ExprVariable(preanalisis.lexema);
+            return new ExprVariable(preanalisis.lexema);
         }
         else if(preanalisis.tipo==TipoToken.NULL){
             match(TipoToken.NULL);
-           // return new ExprLiteral(null);
+            return new ExprLiteral(null);
         }
         else if (preanalisis.tipo==TipoToken.LEFT_PAREN){
             match(TipoToken.LEFT_PAREN);
-            EXPRESSION();
+
+            Expression expr = EXPRESSION();
             if(preanalisis.tipo==TipoToken.RIGHT_PAREN){
                 match(TipoToken.RIGHT_PAREN);
+                return new ExprGrouping(expr);
             }
             else {
                 hayErrores = true;
@@ -587,7 +635,7 @@ public class Parser {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'true', 'false', 'null', 'number', 'string' o 'identifier'.");
         }
-
+        return null;
     }
 
     ///*******Carlitos otras
