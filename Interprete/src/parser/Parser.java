@@ -2,6 +2,7 @@ package parser;
 
 import interpreter.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
@@ -352,17 +353,19 @@ public class Parser {
 
 
     ///*******************Rodrigo Expresiones
-    public void EXPRESSION(){
+    public Expression EXPRESSION(){
 
         if(hayErrores)
-            return ;
-        ASSIGNMENT();
+            return null;
+        return new ExprAssign(preanalisis, ASSIGNMENT());
+
     }
-    public void ASSIGNMENT(){
+    public ExprAssign ASSIGNMENT(){
         if(hayErrores)
-            return;
+            return null;
         LOGIC_OR();
         ASSIGNMENT_OPC();
+        return null;
     }
     public void ASSIGNMENT_OPC(){
         if(hayErrores)
@@ -464,97 +467,120 @@ public class Parser {
     public void FACTOR(){
         if (hayErrores)
             return;
-        UNARY();
-        FACTOR_2();
+        Expression exp = UNARY();
+        exp=FACTOR_2(exp);
+        return exp;
     }
-    public void FACTOR_2(){
+    public Expression FACTOR_2(Expression exp){
         if (hayErrores)
-            return;
-        if (preanalisis.tipo==TipoToken.SLASH || preanalisis.tipo==TipoToken.STAR){
+            return null;
+        if (preanalisis.tipo==TipoToken.SLASH ){
             match(TipoToken.SLASH);
-            match(TipoToken.STAR);
-            UNARY();
-            FACTOR_2();
+            Token previous = tokens.get(i - 1);
+            Expression expR=UNARY();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return FACTOR_2(expb);
         }
+        else if ( preanalisis.tipo==TipoToken.STAR){
+            match(TipoToken.STAR);
+            Token previous = tokens.get(i - 1);
+            Expression expR=UNARY();
+            ExprBinary expb =new ExprBinary(exp,previous,expR);
+            return FACTOR_2(expb);
+        }
+        return null;
     }
-    public void UNARY(){
+    public Expression UNARY(){
         if(hayErrores)
-            return;
-        if(preanalisis.tipo==TipoToken.BANG || preanalisis.tipo==TipoToken.MINUS){
+            return null;
+        if(preanalisis.tipo==TipoToken.BANG){
             match(TipoToken.BANG);
+            Token previous = tokens.get(i - 1);
+            Expression exp=UNARY();
+            return new ExprUnary(previous,exp);
+        }
+        else if(preanalisis.tipo==TipoToken.MINUS){
             match(TipoToken.MINUS);
-            UNARY();
+            Token previus = tokens.get(i - 1);
+            Expression exp=UNARY();
+            return new ExprUnary(previus,exp);
         }
         else if(
                 preanalisis.tipo==TipoToken.TRUE||
-                        preanalisis.tipo==TipoToken.FALSE||
-                        preanalisis.tipo==TipoToken.NULL||
-                        preanalisis.tipo==TipoToken.NUMBER||
-                        preanalisis.tipo==TipoToken.STRING||
-                        preanalisis.tipo==TipoToken.IDENTIFIER||
-                        preanalisis.tipo==TipoToken.LEFT_PAREN){
-            CALL();
+                preanalisis.tipo==TipoToken.FALSE||
+                preanalisis.tipo==TipoToken.NULL||
+                preanalisis.tipo==TipoToken.NUMBER||
+                preanalisis.tipo==TipoToken.STRING||
+                preanalisis.tipo==TipoToken.IDENTIFIER||
+                preanalisis.tipo==TipoToken.LEFT_PAREN){
+            return CALL();
         }
         else {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '!', '-', 'true', 'false', 'null', 'number', 'string' o 'identifier'.");
+            return null;
         }
     }
-    public void CALL(){
+    public Expression CALL(){
         if (hayErrores)
-            return;
-        PRIMARY();
-        CALL_2();
+            return null;
+        Expression exp = PRIMARY();
+        exp = CALL_2(exp);
+        return exp;
     }
-    public void CALL_2(){
+    public Expression CALL_2(Expression exp){
         if (hayErrores)
-            return;
+            return null;
         if (preanalisis.tipo==TipoToken.LEFT_PAREN){
             match(TipoToken.LEFT_PAREN);
-            ARGUMENTS_OPC();
+            List<Expression> arguments=ARGUMENTS_OPC();
             if(preanalisis.tipo==TipoToken.RIGHT_PAREN){
                 match(TipoToken.RIGHT_PAREN);
-                CALL_2();
+                ExprCallFunction ecf = new ExprCallFunction(exp, arguments);
+                return CALL_2(ecf);
             }
             else {
                 hayErrores = true;
                 System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '('.");
             }
         }
+        return null;
         //epsilon
     }
-    public void PRIMARY(){
+    public Expression PRIMARY(){
         if (hayErrores)
-            return ;
+            return null;
         if( preanalisis.tipo==TipoToken.TRUE){
             match(TipoToken.TRUE);
-            //return new ExprLiteral(true);
+            return new ExprLiteral(true);
         }
         else if(preanalisis.tipo==TipoToken.FALSE){
             match(TipoToken.FALSE);
-            //return new ExprLiteral(false);
+            return new ExprLiteral(false);
         }
         else if(preanalisis.tipo==TipoToken.NUMBER){
             match(TipoToken.NUMBER);
-           // return new ExprLiteral(preanalisis.literal);
+            return new ExprLiteral(preanalisis.literal);
         }
         else if(preanalisis.tipo==TipoToken.STRING){
             match(TipoToken.STRING);
-           // return new ExprLiteral(preanalisis.literal);
+            return new ExprLiteral(preanalisis.literal);
         }
         else if(preanalisis.tipo==TipoToken.IDENTIFIER){
             match(TipoToken.IDENTIFIER);
-           // return new ExprVariable(preanalisis.lexema);
+            return new ExprVariable(preanalisis.lexema);
         }
         else if(preanalisis.tipo==TipoToken.NULL){
             match(TipoToken.NULL);
-           // return new ExprLiteral(null);
+            return new ExprLiteral(null);
         }
         else if (preanalisis.tipo==TipoToken.LEFT_PAREN){
             match(TipoToken.LEFT_PAREN);
-            EXPRESSION();
+
+            Expression expr = EXPRESSION();
             if(preanalisis.tipo==TipoToken.RIGHT_PAREN){
                 match(TipoToken.RIGHT_PAREN);
+                return new ExprGrouping(expr);
             }
             else {
                 hayErrores = true;
@@ -565,7 +591,7 @@ public class Parser {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'true', 'false', 'null', 'number', 'string' o 'identifier'.");
         }
-
+        return null;
     }
 
     ///*******************Carlitos otras
