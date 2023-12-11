@@ -5,35 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fea03b3b-bc35-4fda-98b9-d117879672f7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/exception/ParserException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/parser/AST.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ejemplo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interpreter/TipoToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interpreter/TipoToken.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interpreter/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interpreter/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ExprAssign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ExprAssign.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ExprBinary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ExprBinary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ExprCallFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ExprCallFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ExprGet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ExprGet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ExprGrouping.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ExprGrouping.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ExprLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ExprLiteral.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ExprLogical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ExprLogical.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ExprSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ExprSet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ExprSuper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ExprSuper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ExprThis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ExprThis.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ExprUnary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ExprUnary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/ExprVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ExprVariable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/Expression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Expression.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/Statement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Statement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/StmtBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/StmtBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/StmtClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/StmtClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/StmtExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/StmtExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/StmtFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/StmtFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/StmtIf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/StmtIf.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/StmtLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/StmtLoop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/StmtPrint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/StmtPrint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/StmtReturn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/StmtReturn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/StmtVar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/StmtVar.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
