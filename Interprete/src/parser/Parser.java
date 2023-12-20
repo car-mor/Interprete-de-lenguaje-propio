@@ -21,7 +21,7 @@ public class Parser {
 
     public boolean parse() {
 
-        PROGRAM();
+        List<Statement> arbol= PROGRAM();
 
         if (preanalisis.tipo == TipoToken.EOF && !hayErrores) {
             System.out.println("Consulta correcta");
@@ -33,23 +33,26 @@ public class Parser {
         return false;
     }
 
-    ///*******Carlitos declaraciones
+    ///***Carlitos declaraciones
     //PROGRAM->DECLARATION
-    private Expression PROGRAM() {
-        DECLARATION();
-        return null;
-    }
+    private List<Statement> PROGRAM() {
+        List<Statement> statements = new ArrayList();
+        DECLARATION(statements);
+        return statements;
 
+    }
     //DECLARATION->FUN_DECL DECLARATION | VAR_DECL DECLARATION | STATEMENT DECLARATION | e
-    private Expression DECLARATION() {
+    private void DECLARATION(List<Statement> statements) {
         if (hayErrores)
-            return null;
+            return;
         if(preanalisis.tipo == TipoToken.FUN){
-            FUN_DECL();
-            DECLARATION();
+            Statement stmt = FUN_DECL();
+            statements.add(stmt);
+            DECLARATION(statements);
         } else if (preanalisis.tipo == TipoToken.VAR ) {
-            VAR_DECL();
-            DECLARATION();
+            Statement stmt = VAR_DECL();
+            statements.add(stmt);
+            DECLARATION(statements);
         } else if (
                 preanalisis.tipo==TipoToken.BANG||
                         preanalisis.tipo==TipoToken.FOR||
@@ -66,36 +69,40 @@ public class Parser {
                         preanalisis.tipo==TipoToken.STRING||
                         preanalisis.tipo==TipoToken.IDENTIFIER||
                         preanalisis.tipo==TipoToken.LEFT_PAREN) {
-            STATEMENT();
-            DECLARATION();
+            Statement stmt = STATEMENT();
+            statements.add(stmt);
+            DECLARATION(statements);
         }
 
 
     }
     //FUN_DECL-> fun FUNCTION
-    private Expression FUN_DECL(){
+    private Statement FUN_DECL(){
         if (hayErrores)
             return null;
         if(preanalisis.tipo == TipoToken.FUN) {
             match(TipoToken.FUN);
-            FUNCTION();
+            return FUNCTION();
         }
         else {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea + ", columna: "+ preanalisis.columnaE+". Se esperaba 'fun'.");
+            return null;
         }
     }
     //VAR_DECL-> var id VAR_INIT ;
-    private Expression VAR_DECL(){
+    private Statement VAR_DECL(){
         if (hayErrores)
             return null;
         if(preanalisis.tipo == TipoToken.VAR){
             match(TipoToken.VAR);
             if(preanalisis.tipo == TipoToken.IDENTIFIER) {
                 match(TipoToken.IDENTIFIER);
+                Token name = tokens.get(i-1);
                 Expression exp = VAR_INIT();
                 if (preanalisis.tipo == TipoToken.SEMICOLON) {
                     match(TipoToken.SEMICOLON);
+                    return new StmtVar(name,exp);
                 }
                 else {
                     hayErrores = true;
@@ -111,17 +118,18 @@ public class Parser {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'var'.");
         }
+        return null;
     }
 
     //VAR_INIT-> = EXPRESSION | e
-    private Expression VAR_INIT(Expression expr){
+    private Expression VAR_INIT(){
         if (hayErrores)
             return null;
         if(preanalisis.tipo == TipoToken.EQUAL){
             match(TipoToken.EQUAL);
-            Expression exp = EXPRESSION();
+            return EXPRESSION();
         }
-        return expr;
+        return null;
     }
 
     ///*******************Vanessa sentencias
