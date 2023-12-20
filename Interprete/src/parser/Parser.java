@@ -3,6 +3,7 @@ package parser;
 import interpreter.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Parser {
@@ -33,7 +34,7 @@ public class Parser {
         return false;
     }
 
-    ///***Carlitos declaraciones
+    ///*******Carlitos declaraciones
     //PROGRAM->DECLARATION
     private List<Statement> PROGRAM() {
         List<Statement> statements = new ArrayList();
@@ -41,6 +42,7 @@ public class Parser {
         return statements;
 
     }
+
     //DECLARATION->FUN_DECL DECLARATION | VAR_DECL DECLARATION | STATEMENT DECLARATION | e
     private void DECLARATION(List<Statement> statements) {
         if (hayErrores)
@@ -397,13 +399,12 @@ public class Parser {
         return null;
     }
 
-
     ///*******************Rodrigo Expresiones
     public Expression EXPRESSION(){
 
         if(hayErrores)
             return null;
-        return new ExprAssign(preanalisis, ASSIGNMENT());
+        return  ASSIGNMENT();
 
     }
     public Expression ASSIGNMENT(){
@@ -412,16 +413,16 @@ public class Parser {
         Expression exp = LOGIC_OR();
         return ASSIGNMENT_OPC(exp);
     }
-    public ExprBinary ASSIGNMENT_OPC(Expression exp){
+    public Expression ASSIGNMENT_OPC(Expression exp){
         if(hayErrores)
             return null;
         if(preanalisis.tipo==TipoToken.EQUAL){
             match(TipoToken.EQUAL);
             Token previous = tokens.get(i - 1);
             Expression expR=EXPRESSION();
-            return new ExprBinary(exp,previous,expR);
+            return new ExprAssign(previous,expR);
         }
-        return null;
+        return exp;
     }
     public Expression LOGIC_OR(){
         if(hayErrores)
@@ -437,8 +438,8 @@ public class Parser {
             match(TipoToken.OR);
             Token previous = tokens.get(i - 1);
             Expression expR=LOGIC_AND();
-            ExprBinary expb =new ExprBinary(exp,previous,expR);
-            return LOGIC_OR_2(expb);
+            ExprLogical expI =new ExprLogical(exp,previous,expR);
+            return LOGIC_OR_2(expI);
         }
         return null;
     }
@@ -456,8 +457,8 @@ public class Parser {
             match(TipoToken.AND);
             Token previous = tokens.get(i - 1);
             Expression expR=EQUALITY();
-            ExprBinary expb =new ExprBinary(exp,previous,expR);
-            return LOGIC_AND_2(expb);
+            ExprLogical expI =new ExprLogical(exp,previous,expR);
+            return LOGIC_AND_2(expI);
         }
         return null;
     }
@@ -491,8 +492,7 @@ public class Parser {
         if(hayErrores)
             return null;
         Expression exp = TERM();
-        exp = COMPARISON_2(exp);
-        return exp;
+        return COMPARISON_2(exp);
     }
     public Expression COMPARISON_2(Expression exp){
         if(hayErrores)
@@ -508,8 +508,8 @@ public class Parser {
 
             Token previous = tokens.get(i - 1);
             Expression expR=TERM();
-            ExprBinary expb =new ExprBinary(exp,previous,expR);
-            return COMPARISON_2(expb);
+            ExprBinary expI =new ExprBinary(exp,previous,expR);
+            return COMPARISON_2(expI);
         }
         return null;
     }
@@ -517,8 +517,7 @@ public class Parser {
         if(hayErrores)
             return null;
         Expression exp = FACTOR();
-        exp=TERM_2(exp);
-        return exp;
+        return TERM_2(exp);
     }
     public Expression TERM_2(Expression exp){
         if(hayErrores)
@@ -665,28 +664,51 @@ public class Parser {
 
     ///*******Carlitos otras
     //FUNCTION-> id (PARAMETERS_OPC) BLOCK
-    private Statement FUNCTION(){
+    private Statement FUNCTION() {
+        if (hayErrores)
+            return null;
+        if (preanalisis.tipo == TipoToken.IDENTIFIER) {
+            match(TipoToken.IDENTIFIER);
+            Token name=tokens.get(i-1);
+            if (preanalisis.tipo == TipoToken.LEFT_PAREN) {
+                match(TipoToken.LEFT_PAREN);
+                List<Token> parameters = PARAMETERS_OPC();
+                if (preanalisis.tipo == TipoToken.RIGHT_PAREN) {
+                    match(TipoToken.RIGHT_PAREN);
+                    StmtBlock body = (StmtBlock) BLOCK();
+                    return new StmtFunction(name,parameters,body);
+                } else {
+                    hayErrores = true;
+                    System.out.println("Error en la línea " + preanalisis.linea + ", columna: " + preanalisis.columnaE + ". Se esperaba ')'.");
+                }
+            } else {
+                hayErrores = true;
+                System.out.println("Error en la línea " + preanalisis.linea + ", columna: " + preanalisis.columnaE + ". Se esperaba '('.");
+            }
+        } else {
+            hayErrores = true;
+            System.out.println("Error en la línea " + preanalisis.linea + ", columna: " + preanalisis.columnaE + ". Se esperaba 'identifier'.");
+        }
+        return null;
+    }
+
+    //PARAMETERS_OPC->PARAMETERS | e
+    private List<Token> PARAMETERS_OPC(){
+        if(hayErrores)
+            return null;
+        return PARAMETERS();
+    }
+    //PARAMETERS -> id PARAMETERS_2
+    private List<Token> PARAMETERS(){
         if(hayErrores)
             return null;
         if(preanalisis.tipo == TipoToken.IDENTIFIER){
             match(TipoToken.IDENTIFIER);
-            if(preanalisis.tipo == TipoToken.LEFT_PAREN){
-                match(TipoToken.LEFT_PAREN);
-                List<Statement> parameters= PARAMETERS_OPC();
-                if(preanalisis.tipo == TipoToken.RIGHT_PAREN) {
-                    match(TipoToken.RIGHT_PAREN);
-                    StmtBlock exp2 = new StmtBlock(parameters);
-                    return BLOCK(exp2);
-                }
-                else {
-                    hayErrores = true;
-                    System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba ')'.");
-                }
-            }
-            else {
-                hayErrores = true;
-                System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba '('.");
-            }
+            List<Token> parameters = new ArrayList<>();
+            parameters.add(tokens.get(i-1));
+            PARAMETERS_2(parameters);
+            return parameters;
+
         } else {
             hayErrores = true;
             System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'identifier'.");
@@ -694,80 +716,48 @@ public class Parser {
         return null;
     }
 
-    //FUNCTIONS-> FUN_DECL FUNCTIONS | e
-    private Statement FUNCTIONS(Expression expr){
-        if(hayErrores)
-            return null;
-        FUN_DECL();
-//        StmtFunction(Token name, List<Token> params, StmtBlock body)
-        Token name = null;
-        List<Token> parameters = null;
-        StmtBlock body = BLOCK();
-        StmtFunction expr = new StmtFunction(null, null, body);
-        return FUNCTIONS(expr);
-
-    }
-
-    //PARAMETERS_OPC->PARAMETERS | e
-    private List<Statement> PARAMETERS_OPC(){
-        if(hayErrores)
-            return null;
-        PARAMETERS();
-    }
-    //PARAMETERS -> id PARAMETERS_2
-    private Statement PARAMETERS(){
-        if(hayErrores)
-            return null;
-        if(preanalisis.tipo == TipoToken.IDENTIFIER){
-            match(TipoToken.IDENTIFIER);
-            PARAMETERS_2();
-        } else {
-            hayErrores = true;
-            System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'identifier'.");
-        }
-    }
-
     //PARAMETERS_2-> ,id PARAMETERS_2 | e
-    private Statement PARAMETERS_2(){
+    private List<Token> PARAMETERS_2(List<Token> parameters){
         if(hayErrores)
             return null;
         if(preanalisis.tipo == TipoToken.COMMA){
             match(TipoToken.COMMA);
             if(preanalisis.tipo==TipoToken.IDENTIFIER){
                 match(TipoToken.IDENTIFIER);
-                PARAMETERS_2();
+                parameters.add(tokens.get(i-1));
+                PARAMETERS_2(parameters);
             }
             else {
                 hayErrores = true;
                 System.out.println("Error en la línea " + preanalisis.linea +", columna: "+ preanalisis.columnaE+ ". Se esperaba 'identifier'.");
             }
         }
-        //epsilon
+        return null;
     }
 
     //ARGUMENTS_OPC -> EXPRESSION ARGUMENTS | e
     private List<Expression> ARGUMENTS_OPC(){
         if(hayErrores)
             return null;
-        List<Expression> argumentos=new ArrayList<>();
-        argumentos.add(EXPRESSION());
-
-        return ARGUMENTS(argumentos);
+        List<Expression> expressions = new ArrayList<>();
+        Expression exp = EXPRESSION();
+        expressions.add(exp);
+        ARGUMENTS(expressions);
+        return expressions;
     }
+
     //ARGUMENTS -> , EXPRESSION ARGUMENTS | e
-    private List<Expression> ARGUMENTS(List<Expression>argumentos){
+    private void ARGUMENTS(List<Expression> expressions){
         if(hayErrores)
-            return null;
+            return;
         if(preanalisis.tipo == TipoToken.COMMA){
             match(TipoToken.COMMA);
-            Expression exp=EXPRESSION();
-            argumentos.add(exp);
-            argumentos=ARGUMENTS(argumentos);
-            return argumentos;
+            Expression expr = EXPRESSION();
+            expressions.add(expr);
+            ARGUMENTS(expressions);
         }
-        return null;
+        //epsilon
     }
-    
 
     private void match(TipoToken tt){
         if(preanalisis.tipo == tt){
