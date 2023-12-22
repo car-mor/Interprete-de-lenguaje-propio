@@ -1,3 +1,0 @@
-// Prueba 1:
-
- var x = "Apellido";

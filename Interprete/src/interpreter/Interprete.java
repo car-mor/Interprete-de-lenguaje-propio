@@ -94,7 +94,7 @@ public class Interprete {
 
     private static void reportar(int linea, Integer posicion, Object mensaje){
         System.err.println(
-                "[linea " + linea + " posicion " + posicion + "] : " + mensaje
+                "Error Lexical - [linea " + linea + " posicion " + posicion + "] : " + mensaje
         );
         existenErrores = true;
     }

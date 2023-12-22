@@ -231,7 +231,7 @@ public class Scanner {
 
                         //identificador
                         if(tt == null){
-                            Token t = new Token(TipoToken.IDENTIFIER, lexema,columna,linea);
+                            Token t = new Token(TipoToken.IDENTIFIER, "\""+lexema+"\"",lexema,columna,linea);
                             tokens.add(t);
                         }
                         //palabra reservada
