@@ -1,4 +1,7 @@
-package interpreter;
+package Scanner;
+
+import interpreter.TipoToken;
+import interpreter.Token;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +60,7 @@ public class Scanner {
         this.source = source + " ";
     }
 
-    public List<Token> scan() {
+    public List<Token> scan() throws ScannerException {
         String lexema = "";
         int estado = 0;
         int columna=0;
@@ -461,6 +464,19 @@ public class Scanner {
             tokens.add(new Token(TipoToken.ERROR_LEXICAL, lexema +" Unexpected line break",columna,linea));
         }
         tokens.add(new Token(TipoToken.EOF,"EOF"));
+
+        int i=0;
+        StringBuilder err= new StringBuilder();
+        for(Token token : tokens){
+            if(token.tipo==TipoToken.ERROR_LEXICAL){
+                i++;
+                err.append("\nError Lexical - [linea ").append(token.linea).append(" posicion ").append(token.columnaE).append("] : ").append(token.lexema);
+            }
+        }
+
+        if (i!=0){
+            throw new ScannerException(err);
+        }
 
         return tokens;
     }

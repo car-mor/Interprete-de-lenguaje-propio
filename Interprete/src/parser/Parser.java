@@ -20,7 +20,9 @@ public class Parser{
     }
 
 
+
     public boolean parse() throws ParserException{
+
 
 
         List<Statement> arbol = PROGRAM();

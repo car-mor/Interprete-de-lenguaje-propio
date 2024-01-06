@@ -1,5 +1,6 @@
 package interpreter;
 
+import Scanner.Scanner;
 import parser.Parser;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -60,20 +61,6 @@ public class Interprete {
         try{
             Scanner scanner = new Scanner(source);
             List<Token> tokens = scanner.scan();
-
-            int i=0;
-
-            for(Token token : tokens){
-                if(token.tipo==TipoToken.ERROR_LEXICAL){
-                    i++;
-                    reportar(token.linea,token.columnaE, token.lexema );
-
-                }
-            }
-
-            if (i!=0){
-                System.exit(0);
-            }
 
             Parser parser = new Parser(tokens);
             parser.parse();
