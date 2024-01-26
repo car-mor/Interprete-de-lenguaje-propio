@@ -21,22 +21,13 @@ public class Parser{
 
 
 
-    public boolean parse() throws ParserException{
-
-
-
+    public List<Statement> parse() throws ParserException{
         List<Statement> arbol = PROGRAM();
         if (preanalisis.tipo == TipoToken.EOF && !hayErrores) {
-            System.out.println("Consulta correcta");
-            return true;
-        } else {
-            System.out.println("Se encontraron errores");
+
+            return arbol;
         }
-
-
-
-
-        return false;
+        return null;
     }
 
     ///*******Carlitos declaraciones
@@ -634,7 +625,7 @@ public class Parser{
         }
         else if(preanalisis.tipo==TipoToken.IDENTIFIER){
             match(TipoToken.IDENTIFIER);
-            return new ExprVariable(previo.lexema);
+            return new ExprVariable((String) previo.literal);
         }
         else if(preanalisis.tipo==TipoToken.NULL){
             match(TipoToken.NULL);

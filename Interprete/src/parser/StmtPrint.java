@@ -1,9 +1,9 @@
 package parser;
 
 public class StmtPrint extends Statement {
-    final Expression expression;
+    public final Expression expression;
 
-    StmtPrint(Expression expression) {
+    public StmtPrint(Expression expression) {
         this.expression = expression;
     }
 }

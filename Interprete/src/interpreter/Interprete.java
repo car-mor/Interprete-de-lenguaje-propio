@@ -1,7 +1,9 @@
 package interpreter;
 
 import Scanner.Scanner;
-import parser.Parser;
+import parser.*;
+import semantic.Semantic;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,18 +20,14 @@ public class Interprete {
         if(args.length > 1) {
             System.out.println("El uso correcto: interprete [archivo.txt]\n");
 
-
             for(String a:args){
                 System.out.println("\n\n\n//////////////////////////\n prueba:"+a+"\n");
                 ejecutarArchivo(a);
-
 
             }
             System.exit(64);
         } else if(args.length == 1){
             ejecutarArchivo(args[0]);
-
-
         } else{
             System.out.println("prompt");
             ejecutarPrompt();
@@ -63,27 +61,14 @@ public class Interprete {
             List<Token> tokens = scanner.scan();
 
             Parser parser = new Parser(tokens);
-            parser.parse();
+            List<Statement>tree=parser.parse();
 
+            Semantic semantic=new Semantic(tree);
+            semantic.InitAnalizer();
         }
         catch (Exception ex){
             ex.printStackTrace();
         }
 
     }
-
-    /*
-    El método error se puede usar desde las distintas clases
-    para reportar los errores:
-    interpreter.Interprete.error;
-     */
-
-
-    private static void reportar(int linea, Integer posicion, Object mensaje){
-        System.err.println(
-                "Error Lexical - [linea " + linea + " posicion " + posicion + "] : " + mensaje
-        );
-        existenErrores = true;
-    }
-
 }

@@ -1,7 +1,7 @@
 package parser;
 
-class ExprLiteral extends Expression {
-    final Object value;
+public class ExprLiteral extends Expression {
+    public final Object value;
 
     ExprLiteral(Object value) {
         this.value = value;

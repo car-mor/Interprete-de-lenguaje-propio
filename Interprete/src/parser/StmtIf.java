@@ -1,9 +1,9 @@
 package parser;
 
 public class StmtIf extends Statement {
-    final Expression condition;
-    final Statement thenBranch;
-    final Statement elseBranch;
+    public final Expression condition;
+    public final Statement thenBranch;
+    public final Statement elseBranch;
 
     StmtIf(Expression condition, Statement thenBranch, Statement elseBranch) {
         this.condition = condition;
